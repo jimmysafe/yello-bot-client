@@ -30,8 +30,6 @@ const client = new ApolloClient({
 
 const MyApp = ({ Component, pageProps }: AppProps)  => {
   
-  console.log()
-
   return (
     <ApolloProvider client={client}>
       <Layout>

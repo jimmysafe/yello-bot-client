@@ -16,11 +16,16 @@ const SuccessAuth = () => {
             .then( res => res.json() )
             .then( user => {
                 const userid = user.id
+                const avatar = user.avatar
+                const username = user.username
                 const expiry = fragment.get("expires_in")
 
                 Cookies.set('userid', userid, { expires: 7 })
                 Cookies.set('expiry', expiry, { expires: 7 })
                 Cookies.set('accessToken', accessToken, { expires: 7 })
+                Cookies.set('username', username, { expires: 7 })
+                Cookies.set('avatar', avatar, { expires: 7 })
+
 
                 window.opener.location.href = 'http://localhost:3000/app/servers'
                 window.close()

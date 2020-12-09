@@ -1,0 +1,5 @@
+query userRole($channel_id: String!){
+  evaluateUserRole(channel_id: $channel_id){
+      has_role
+  }
+}

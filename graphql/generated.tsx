@@ -18,7 +18,7 @@ export type Query = {
   audios: Array<Audio>;
   channels: Array<Channel>;
   userGuilds: Array<Guild>;
-  evaluateUserRole: Scalars['String'];
+  evaluateUserRole: HasRole;
 };
 
 
@@ -53,11 +53,17 @@ export type Guild = {
   __typename?: 'Guild';
   id: Scalars['String'];
   name: Scalars['String'];
-  icon: Scalars['String'];
+  icon?: Maybe<Scalars['String']>;
   owner: Scalars['Boolean'];
   permissions: Scalars['Float'];
   features: Array<Scalars['String']>;
   permissions_new: Scalars['String'];
+};
+
+/** The Success Object sent if Member has correct discord role */
+export type HasRole = {
+  __typename?: 'HasRole';
+  has_role: Scalars['Boolean'];
 };
 
 export type Mutation = {
@@ -131,6 +137,19 @@ export type UserGuildsQuery = (
     { __typename?: 'Guild' }
     & Pick<Guild, 'id' | 'name' | 'icon'>
   )> }
+);
+
+export type UserRoleQueryVariables = Exact<{
+  channel_id: Scalars['String'];
+}>;
+
+
+export type UserRoleQuery = (
+  { __typename?: 'Query' }
+  & { evaluateUserRole: (
+    { __typename?: 'HasRole' }
+    & Pick<HasRole, 'has_role'>
+  ) }
 );
 
 
@@ -241,3 +260,36 @@ export function useUserGuildsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type UserGuildsQueryHookResult = ReturnType<typeof useUserGuildsQuery>;
 export type UserGuildsLazyQueryHookResult = ReturnType<typeof useUserGuildsLazyQuery>;
 export type UserGuildsQueryResult = Apollo.QueryResult<UserGuildsQuery, UserGuildsQueryVariables>;
+export const UserRoleDocument = gql`
+    query userRole($channel_id: String!) {
+  evaluateUserRole(channel_id: $channel_id) {
+    has_role
+  }
+}
+    `;
+
+/**
+ * __useUserRoleQuery__
+ *
+ * To run a query within a React component, call `useUserRoleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserRoleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserRoleQuery({
+ *   variables: {
+ *      channel_id: // value for 'channel_id'
+ *   },
+ * });
+ */
+export function useUserRoleQuery(baseOptions: Apollo.QueryHookOptions<UserRoleQuery, UserRoleQueryVariables>) {
+        return Apollo.useQuery<UserRoleQuery, UserRoleQueryVariables>(UserRoleDocument, baseOptions);
+      }
+export function useUserRoleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserRoleQuery, UserRoleQueryVariables>) {
+          return Apollo.useLazyQuery<UserRoleQuery, UserRoleQueryVariables>(UserRoleDocument, baseOptions);
+        }
+export type UserRoleQueryHookResult = ReturnType<typeof useUserRoleQuery>;
+export type UserRoleLazyQueryHookResult = ReturnType<typeof useUserRoleLazyQuery>;
+export type UserRoleQueryResult = Apollo.QueryResult<UserRoleQuery, UserRoleQueryVariables>;
