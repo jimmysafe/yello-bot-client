@@ -1,0 +1,7 @@
+query userGuilds {
+    userGuilds{
+        id
+        name
+        icon
+    }
+}

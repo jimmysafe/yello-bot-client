@@ -1,0 +1,11 @@
+query getChannels{
+  channels{
+    id
+    channel_id
+    type
+    files{
+        name
+        url
+    }
+  }
+}

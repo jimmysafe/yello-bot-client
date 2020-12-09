@@ -1,8 +1,26 @@
-import { getBotGuildsList, getUserGuildsList } from '../../discord-api'
-import { isLoggedIn } from '../../utils/isLoggedIn'
+import { useUserGuildsQuery } from '../../graphql/generated'
+import { authorized } from '../../utils'
+import { GetServerSideProps, NextPage  } from 'next'
 
-const Servers = ({ guilds }) => {
-    console.log(guilds)
+type Cookie = {
+    userid: string,
+    expiry: string,
+    accessToken: string
+}
+
+type PageProps = {
+    cookies: Cookie[]
+}
+
+const Servers: NextPage<PageProps> = ({ cookies }) => {
+
+    const { data, error, loading } = useUserGuildsQuery()
+
+    if(error) console.log(error)
+    if(loading) console.log(loading)
+    console.log(data)
+
+
     return (
         <div>
             LIST OF PRIVATE SERVERS
@@ -10,28 +28,13 @@ const Servers = ({ guilds }) => {
     )
 }
 
-export const getServerSideProps = async (ctx) => {
-    await isLoggedIn(ctx)
-
-    const userGuilds = await getUserGuildsList(ctx)
-    const botGuilds = await getBotGuildsList(ctx)
-
-    const guildsArray = userGuilds.map(userGuild => {
-        let foundGuild = botGuilds.find(guild => guild.id === userGuild.id)
-        if(foundGuild) {
-            foundGuild.owner = userGuild.owner
-            return foundGuild
-        }
-        else return false
-    })
-
-    const guilds = guildsArray.filter(item => item !== false)
+export const getServerSideProps: GetServerSideProps = async(ctx) => {
 
     return {
         props: {
-            guilds
+            cookies: authorized(ctx) || null
         }
-    }
+    }    
 }
 
 export default Servers

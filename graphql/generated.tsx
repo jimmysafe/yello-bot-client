@@ -17,7 +17,8 @@ export type Query = {
   __typename?: 'Query';
   audios: Array<Audio>;
   channels: Array<Channel>;
-  auth: AuthResponse;
+  userGuilds: Array<Guild>;
+  evaluateUserRole: Scalars['String'];
 };
 
 
@@ -26,8 +27,8 @@ export type QueryAudiosArgs = {
 };
 
 
-export type QueryAuthArgs = {
-  code: Scalars['String'];
+export type QueryEvaluateUserRoleArgs = {
+  channel_id: Scalars['String'];
 };
 
 /** The Audio File model */
@@ -47,14 +48,16 @@ export type Channel = {
   files: Array<Audio>;
 };
 
-/** Auth response model */
-export type AuthResponse = {
-  __typename?: 'AuthResponse';
-  access_token: Scalars['String'];
-  token_type: Scalars['String'];
-  expires_in: Scalars['Float'];
-  refresh_token: Scalars['String'];
-  scope: Scalars['String'];
+/** The User Guild model */
+export type Guild = {
+  __typename?: 'Guild';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  icon: Scalars['String'];
+  owner: Scalars['Boolean'];
+  permissions: Scalars['Float'];
+  features: Array<Scalars['String']>;
+  permissions_new: Scalars['String'];
 };
 
 export type Mutation = {
@@ -91,19 +94,6 @@ export type MutationStripeCheckoutCreateArgs = {
   email: Scalars['String'];
 };
 
-export type DiscordAuthQueryVariables = Exact<{
-  code: Scalars['String'];
-}>;
-
-
-export type DiscordAuthQuery = (
-  { __typename?: 'Query' }
-  & { auth: (
-    { __typename?: 'AuthResponse' }
-    & Pick<AuthResponse, 'access_token' | 'refresh_token'>
-  ) }
-);
-
 export type GetChannelAudiosQueryVariables = Exact<{
   channel_id: Scalars['String'];
 }>;
@@ -117,41 +107,33 @@ export type GetChannelAudiosQuery = (
   )> }
 );
 
+export type GetChannelsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export const DiscordAuthDocument = gql`
-    query discordAuth($code: String!) {
-  auth(code: $code) {
-    access_token
-    refresh_token
-  }
-}
-    `;
 
-/**
- * __useDiscordAuthQuery__
- *
- * To run a query within a React component, call `useDiscordAuthQuery` and pass it any options that fit your needs.
- * When your component renders, `useDiscordAuthQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useDiscordAuthQuery({
- *   variables: {
- *      code: // value for 'code'
- *   },
- * });
- */
-export function useDiscordAuthQuery(baseOptions: Apollo.QueryHookOptions<DiscordAuthQuery, DiscordAuthQueryVariables>) {
-        return Apollo.useQuery<DiscordAuthQuery, DiscordAuthQueryVariables>(DiscordAuthDocument, baseOptions);
-      }
-export function useDiscordAuthLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DiscordAuthQuery, DiscordAuthQueryVariables>) {
-          return Apollo.useLazyQuery<DiscordAuthQuery, DiscordAuthQueryVariables>(DiscordAuthDocument, baseOptions);
-        }
-export type DiscordAuthQueryHookResult = ReturnType<typeof useDiscordAuthQuery>;
-export type DiscordAuthLazyQueryHookResult = ReturnType<typeof useDiscordAuthLazyQuery>;
-export type DiscordAuthQueryResult = Apollo.QueryResult<DiscordAuthQuery, DiscordAuthQueryVariables>;
+export type GetChannelsQuery = (
+  { __typename?: 'Query' }
+  & { channels: Array<(
+    { __typename?: 'Channel' }
+    & Pick<Channel, 'id' | 'channel_id' | 'type'>
+    & { files: Array<(
+      { __typename?: 'Audio' }
+      & Pick<Audio, 'name' | 'url'>
+    )> }
+  )> }
+);
+
+export type UserGuildsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserGuildsQuery = (
+  { __typename?: 'Query' }
+  & { userGuilds: Array<(
+    { __typename?: 'Guild' }
+    & Pick<Guild, 'id' | 'name' | 'icon'>
+  )> }
+);
+
+
 export const GetChannelAudiosDocument = gql`
     query getChannelAudios($channel_id: String!) {
   audios(channel_id: $channel_id) {
@@ -187,3 +169,75 @@ export function useGetChannelAudiosLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetChannelAudiosQueryHookResult = ReturnType<typeof useGetChannelAudiosQuery>;
 export type GetChannelAudiosLazyQueryHookResult = ReturnType<typeof useGetChannelAudiosLazyQuery>;
 export type GetChannelAudiosQueryResult = Apollo.QueryResult<GetChannelAudiosQuery, GetChannelAudiosQueryVariables>;
+export const GetChannelsDocument = gql`
+    query getChannels {
+  channels {
+    id
+    channel_id
+    type
+    files {
+      name
+      url
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetChannelsQuery__
+ *
+ * To run a query within a React component, call `useGetChannelsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetChannelsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetChannelsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetChannelsQuery(baseOptions?: Apollo.QueryHookOptions<GetChannelsQuery, GetChannelsQueryVariables>) {
+        return Apollo.useQuery<GetChannelsQuery, GetChannelsQueryVariables>(GetChannelsDocument, baseOptions);
+      }
+export function useGetChannelsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetChannelsQuery, GetChannelsQueryVariables>) {
+          return Apollo.useLazyQuery<GetChannelsQuery, GetChannelsQueryVariables>(GetChannelsDocument, baseOptions);
+        }
+export type GetChannelsQueryHookResult = ReturnType<typeof useGetChannelsQuery>;
+export type GetChannelsLazyQueryHookResult = ReturnType<typeof useGetChannelsLazyQuery>;
+export type GetChannelsQueryResult = Apollo.QueryResult<GetChannelsQuery, GetChannelsQueryVariables>;
+export const UserGuildsDocument = gql`
+    query userGuilds {
+  userGuilds {
+    id
+    name
+    icon
+  }
+}
+    `;
+
+/**
+ * __useUserGuildsQuery__
+ *
+ * To run a query within a React component, call `useUserGuildsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserGuildsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserGuildsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUserGuildsQuery(baseOptions?: Apollo.QueryHookOptions<UserGuildsQuery, UserGuildsQueryVariables>) {
+        return Apollo.useQuery<UserGuildsQuery, UserGuildsQueryVariables>(UserGuildsDocument, baseOptions);
+      }
+export function useUserGuildsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserGuildsQuery, UserGuildsQueryVariables>) {
+          return Apollo.useLazyQuery<UserGuildsQuery, UserGuildsQueryVariables>(UserGuildsDocument, baseOptions);
+        }
+export type UserGuildsQueryHookResult = ReturnType<typeof useUserGuildsQuery>;
+export type UserGuildsLazyQueryHookResult = ReturnType<typeof useUserGuildsLazyQuery>;
+export type UserGuildsQueryResult = Apollo.QueryResult<UserGuildsQuery, UserGuildsQueryVariables>;

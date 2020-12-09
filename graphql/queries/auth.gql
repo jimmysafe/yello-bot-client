@@ -1,6 +1,0 @@
-query discordAuth($code: String!){
-  auth(code: $code){
-    access_token
-    refresh_token
-  }
-}
