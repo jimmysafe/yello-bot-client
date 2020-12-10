@@ -6,6 +6,8 @@ const discordLink: string = 'https://discord.com/api/oauth2/authorize?client_id=
 
 const Home: FC = () => {
 
+  console.log('home')
+
   const openPopup = (
     url: string, 
     width: number, 
