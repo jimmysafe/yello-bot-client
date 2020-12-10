@@ -1,7 +1,0 @@
-query getChannelAudios($channel_id: String!){
-  audios(channel_id: $channel_id){
-    id
-    name
-    url
-  }
-}

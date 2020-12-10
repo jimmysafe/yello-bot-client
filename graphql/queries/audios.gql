@@ -1,0 +1,7 @@
+query getAudios($guild_id: String!){
+  audios(guild_id: $guild_id){
+    id
+    name
+    url
+  }
+}

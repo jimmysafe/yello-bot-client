@@ -16,19 +16,13 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   audios: Array<Audio>;
-  channels: Array<Channel>;
-  userGuilds: Array<Guild>;
-  evaluateUserRole: HasRole;
+  guilds: Array<Guild>;
+  userGuilds: Array<GuildType>;
 };
 
 
 export type QueryAudiosArgs = {
-  channel_id: Scalars['String'];
-};
-
-
-export type QueryEvaluateUserRoleArgs = {
-  channel_id: Scalars['String'];
+  guild_id: Scalars['String'];
 };
 
 /** The Audio File model */
@@ -40,17 +34,17 @@ export type Audio = {
 };
 
 /** The Channel model */
-export type Channel = {
-  __typename?: 'Channel';
+export type Guild = {
+  __typename?: 'Guild';
   id: Scalars['ID'];
-  channel_id: Scalars['String'];
+  guild_id: Scalars['String'];
   type: Scalars['String'];
   files: Array<Audio>;
 };
 
 /** The User Guild model */
-export type Guild = {
-  __typename?: 'Guild';
+export type GuildType = {
+  __typename?: 'GuildType';
   id: Scalars['String'];
   name: Scalars['String'];
   icon?: Maybe<Scalars['String']>;
@@ -60,17 +54,11 @@ export type Guild = {
   permissions_new: Scalars['String'];
 };
 
-/** The Success Object sent if Member has correct discord role */
-export type HasRole = {
-  __typename?: 'HasRole';
-  has_role: Scalars['Boolean'];
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   audioFileAdd: Audio;
   audioFileDelete: Audio;
-  channelUpgrade: Channel;
+  guildUpgrade: Guild;
   stripeCheckoutCreate: Scalars['String'];
 };
 
@@ -80,19 +68,19 @@ export type MutationAudioFileAddArgs = {
   start: Scalars['String'];
   audioUrl: Scalars['String'];
   name: Scalars['String'];
-  channel_id: Scalars['String'];
+  guild_id: Scalars['String'];
 };
 
 
 export type MutationAudioFileDeleteArgs = {
   audio_name: Scalars['String'];
   audio_id: Scalars['String'];
-  channel_id: Scalars['String'];
+  guild_id: Scalars['String'];
 };
 
 
-export type MutationChannelUpgradeArgs = {
-  channel_id: Scalars['String'];
+export type MutationGuildUpgradeArgs = {
+  guild_id: Scalars['String'];
 };
 
 
@@ -100,12 +88,12 @@ export type MutationStripeCheckoutCreateArgs = {
   email: Scalars['String'];
 };
 
-export type GetChannelAudiosQueryVariables = Exact<{
-  channel_id: Scalars['String'];
+export type GetAudiosQueryVariables = Exact<{
+  guild_id: Scalars['String'];
 }>;
 
 
-export type GetChannelAudiosQuery = (
+export type GetAudiosQuery = (
   { __typename?: 'Query' }
   & { audios: Array<(
     { __typename?: 'Audio' }
@@ -113,14 +101,14 @@ export type GetChannelAudiosQuery = (
   )> }
 );
 
-export type GetChannelsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GuildsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetChannelsQuery = (
+export type GuildsQuery = (
   { __typename?: 'Query' }
-  & { channels: Array<(
-    { __typename?: 'Channel' }
-    & Pick<Channel, 'id' | 'channel_id' | 'type'>
+  & { guilds: Array<(
+    { __typename?: 'Guild' }
+    & Pick<Guild, 'id' | 'guild_id' | 'type'>
     & { files: Array<(
       { __typename?: 'Audio' }
       & Pick<Audio, 'name' | 'url'>
@@ -134,28 +122,15 @@ export type UserGuildsQueryVariables = Exact<{ [key: string]: never; }>;
 export type UserGuildsQuery = (
   { __typename?: 'Query' }
   & { userGuilds: Array<(
-    { __typename?: 'Guild' }
-    & Pick<Guild, 'id' | 'name' | 'icon'>
+    { __typename?: 'GuildType' }
+    & Pick<GuildType, 'id' | 'name' | 'icon'>
   )> }
 );
 
-export type UserRoleQueryVariables = Exact<{
-  channel_id: Scalars['String'];
-}>;
 
-
-export type UserRoleQuery = (
-  { __typename?: 'Query' }
-  & { evaluateUserRole: (
-    { __typename?: 'HasRole' }
-    & Pick<HasRole, 'has_role'>
-  ) }
-);
-
-
-export const GetChannelAudiosDocument = gql`
-    query getChannelAudios($channel_id: String!) {
-  audios(channel_id: $channel_id) {
+export const GetAudiosDocument = gql`
+    query getAudios($guild_id: String!) {
+  audios(guild_id: $guild_id) {
     id
     name
     url
@@ -164,35 +139,35 @@ export const GetChannelAudiosDocument = gql`
     `;
 
 /**
- * __useGetChannelAudiosQuery__
+ * __useGetAudiosQuery__
  *
- * To run a query within a React component, call `useGetChannelAudiosQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetChannelAudiosQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetAudiosQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAudiosQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetChannelAudiosQuery({
+ * const { data, loading, error } = useGetAudiosQuery({
  *   variables: {
- *      channel_id: // value for 'channel_id'
+ *      guild_id: // value for 'guild_id'
  *   },
  * });
  */
-export function useGetChannelAudiosQuery(baseOptions: Apollo.QueryHookOptions<GetChannelAudiosQuery, GetChannelAudiosQueryVariables>) {
-        return Apollo.useQuery<GetChannelAudiosQuery, GetChannelAudiosQueryVariables>(GetChannelAudiosDocument, baseOptions);
+export function useGetAudiosQuery(baseOptions: Apollo.QueryHookOptions<GetAudiosQuery, GetAudiosQueryVariables>) {
+        return Apollo.useQuery<GetAudiosQuery, GetAudiosQueryVariables>(GetAudiosDocument, baseOptions);
       }
-export function useGetChannelAudiosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetChannelAudiosQuery, GetChannelAudiosQueryVariables>) {
-          return Apollo.useLazyQuery<GetChannelAudiosQuery, GetChannelAudiosQueryVariables>(GetChannelAudiosDocument, baseOptions);
+export function useGetAudiosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAudiosQuery, GetAudiosQueryVariables>) {
+          return Apollo.useLazyQuery<GetAudiosQuery, GetAudiosQueryVariables>(GetAudiosDocument, baseOptions);
         }
-export type GetChannelAudiosQueryHookResult = ReturnType<typeof useGetChannelAudiosQuery>;
-export type GetChannelAudiosLazyQueryHookResult = ReturnType<typeof useGetChannelAudiosLazyQuery>;
-export type GetChannelAudiosQueryResult = Apollo.QueryResult<GetChannelAudiosQuery, GetChannelAudiosQueryVariables>;
-export const GetChannelsDocument = gql`
-    query getChannels {
-  channels {
+export type GetAudiosQueryHookResult = ReturnType<typeof useGetAudiosQuery>;
+export type GetAudiosLazyQueryHookResult = ReturnType<typeof useGetAudiosLazyQuery>;
+export type GetAudiosQueryResult = Apollo.QueryResult<GetAudiosQuery, GetAudiosQueryVariables>;
+export const GuildsDocument = gql`
+    query guilds {
+  guilds {
     id
-    channel_id
+    guild_id
     type
     files {
       name
@@ -203,29 +178,29 @@ export const GetChannelsDocument = gql`
     `;
 
 /**
- * __useGetChannelsQuery__
+ * __useGuildsQuery__
  *
- * To run a query within a React component, call `useGetChannelsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetChannelsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGuildsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGuildsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetChannelsQuery({
+ * const { data, loading, error } = useGuildsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetChannelsQuery(baseOptions?: Apollo.QueryHookOptions<GetChannelsQuery, GetChannelsQueryVariables>) {
-        return Apollo.useQuery<GetChannelsQuery, GetChannelsQueryVariables>(GetChannelsDocument, baseOptions);
+export function useGuildsQuery(baseOptions?: Apollo.QueryHookOptions<GuildsQuery, GuildsQueryVariables>) {
+        return Apollo.useQuery<GuildsQuery, GuildsQueryVariables>(GuildsDocument, baseOptions);
       }
-export function useGetChannelsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetChannelsQuery, GetChannelsQueryVariables>) {
-          return Apollo.useLazyQuery<GetChannelsQuery, GetChannelsQueryVariables>(GetChannelsDocument, baseOptions);
+export function useGuildsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GuildsQuery, GuildsQueryVariables>) {
+          return Apollo.useLazyQuery<GuildsQuery, GuildsQueryVariables>(GuildsDocument, baseOptions);
         }
-export type GetChannelsQueryHookResult = ReturnType<typeof useGetChannelsQuery>;
-export type GetChannelsLazyQueryHookResult = ReturnType<typeof useGetChannelsLazyQuery>;
-export type GetChannelsQueryResult = Apollo.QueryResult<GetChannelsQuery, GetChannelsQueryVariables>;
+export type GuildsQueryHookResult = ReturnType<typeof useGuildsQuery>;
+export type GuildsLazyQueryHookResult = ReturnType<typeof useGuildsLazyQuery>;
+export type GuildsQueryResult = Apollo.QueryResult<GuildsQuery, GuildsQueryVariables>;
 export const UserGuildsDocument = gql`
     query userGuilds {
   userGuilds {
@@ -260,36 +235,3 @@ export function useUserGuildsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type UserGuildsQueryHookResult = ReturnType<typeof useUserGuildsQuery>;
 export type UserGuildsLazyQueryHookResult = ReturnType<typeof useUserGuildsLazyQuery>;
 export type UserGuildsQueryResult = Apollo.QueryResult<UserGuildsQuery, UserGuildsQueryVariables>;
-export const UserRoleDocument = gql`
-    query userRole($channel_id: String!) {
-  evaluateUserRole(channel_id: $channel_id) {
-    has_role
-  }
-}
-    `;
-
-/**
- * __useUserRoleQuery__
- *
- * To run a query within a React component, call `useUserRoleQuery` and pass it any options that fit your needs.
- * When your component renders, `useUserRoleQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUserRoleQuery({
- *   variables: {
- *      channel_id: // value for 'channel_id'
- *   },
- * });
- */
-export function useUserRoleQuery(baseOptions: Apollo.QueryHookOptions<UserRoleQuery, UserRoleQueryVariables>) {
-        return Apollo.useQuery<UserRoleQuery, UserRoleQueryVariables>(UserRoleDocument, baseOptions);
-      }
-export function useUserRoleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserRoleQuery, UserRoleQueryVariables>) {
-          return Apollo.useLazyQuery<UserRoleQuery, UserRoleQueryVariables>(UserRoleDocument, baseOptions);
-        }
-export type UserRoleQueryHookResult = ReturnType<typeof useUserRoleQuery>;
-export type UserRoleLazyQueryHookResult = ReturnType<typeof useUserRoleLazyQuery>;
-export type UserRoleQueryResult = Apollo.QueryResult<UserRoleQuery, UserRoleQueryVariables>;

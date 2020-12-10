@@ -3,10 +3,10 @@ import Cookies from 'js-cookie'
 
 const SuccessAuth = () => {
     useEffect(() => {
-        const fragment = new URLSearchParams(window.location.hash.slice(1));
+        const fragment: URLSearchParams = new URLSearchParams(window.location.hash.slice(1));
         if (fragment.has("access_token")) {
             
-            const accessToken = fragment.get("access_token");
+            const accessToken: string = fragment.get("access_token");
             
             fetch('https://discord.com/api/users/@me', {
                 headers: {
@@ -15,13 +15,18 @@ const SuccessAuth = () => {
             })
             .then( res => res.json() )
             .then( user => {
-                const userid = user.id
-                const avatar = user.avatar
-                const username = user.username
-                const expiry = fragment.get("expires_in")
+                const userid: string = user.id
+                const avatar: string = user.avatar
+                const username: string = user.username
+                const expiry: number = Number(fragment.get("expires_in"))
+
+                let expiryDate: Date = new Date()
+                expiryDate = new Date(expiryDate.getTime() + (expiry * 1000));
+
+                const expiryDateISO: string = expiryDate.toISOString() 
 
                 Cookies.set('userid', userid, { expires: 7 })
-                Cookies.set('expiry', expiry, { expires: 7 })
+                Cookies.set('expiry', expiryDateISO, { expires: 7 })
                 Cookies.set('accessToken', accessToken, { expires: 7 })
                 Cookies.set('username', username, { expires: 7 })
                 Cookies.set('avatar', avatar, { expires: 7 })

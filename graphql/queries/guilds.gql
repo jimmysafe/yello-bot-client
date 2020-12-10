@@ -1,7 +1,7 @@
-query getChannels{
-  channels{
+query guilds{
+  guilds{
     id
-    channel_id
+    guild_id
     type
     files{
         name
