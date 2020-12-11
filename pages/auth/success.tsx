@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 import Cookies from 'js-cookie'
+import moment from 'moment';
+
 
 const SuccessAuth = () => {
     useEffect(() => {
@@ -23,7 +25,7 @@ const SuccessAuth = () => {
                 let expiryDate: Date = new Date()
                 expiryDate = new Date(expiryDate.getTime() + (expiry * 1000));
 
-                const expiryDateISO: string = expiryDate.toISOString() 
+                const expiryDateISO: string = moment(expiryDate).utcOffset(0).format()
 
                 Cookies.set('userid', userid, { expires: 7 })
                 Cookies.set('expiry', expiryDateISO, { expires: 7 })

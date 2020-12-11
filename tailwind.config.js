@@ -11,9 +11,9 @@ module.exports = {
     },
     extend: {
       colors: {
-        yellow: '#FAF77D',
-        teal: '#B8FFF3',
-        pink: '#FFDCED'
+        primary: '#FFB300',
+        secondary: '#272727',
+        bgColor: '#2E3034'
       }
     }
   },

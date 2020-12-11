@@ -15,22 +15,20 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
-  audios: Array<Audio>;
   guilds: Array<Guild>;
+  guild: Guild;
   userGuilds: Array<GuildType>;
+  audios: Array<Audio>;
+};
+
+
+export type QueryGuildArgs = {
+  guild_id: Scalars['String'];
 };
 
 
 export type QueryAudiosArgs = {
   guild_id: Scalars['String'];
-};
-
-/** The Audio File model */
-export type Audio = {
-  __typename?: 'Audio';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  url: Scalars['String'];
 };
 
 /** The Channel model */
@@ -40,6 +38,14 @@ export type Guild = {
   guild_id: Scalars['String'];
   type: Scalars['String'];
   files: Array<Audio>;
+};
+
+/** The Audio File model */
+export type Audio = {
+  __typename?: 'Audio';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  url: Scalars['String'];
 };
 
 /** The User Guild model */
@@ -56,16 +62,22 @@ export type GuildType = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  guildUpgrade: Guild;
   audioFileAdd: Audio;
   audioFileDelete: Audio;
-  guildUpgrade: Guild;
+  audioFileUpdate: Audio;
   stripeCheckoutCreate: Scalars['String'];
 };
 
 
+export type MutationGuildUpgradeArgs = {
+  guild_id: Scalars['String'];
+};
+
+
 export type MutationAudioFileAddArgs = {
-  duration: Scalars['String'];
-  start: Scalars['String'];
+  end: Scalars['Float'];
+  start: Scalars['Float'];
   audioUrl: Scalars['String'];
   name: Scalars['String'];
   guild_id: Scalars['String'];
@@ -79,7 +91,10 @@ export type MutationAudioFileDeleteArgs = {
 };
 
 
-export type MutationGuildUpgradeArgs = {
+export type MutationAudioFileUpdateArgs = {
+  new_audio_name: Scalars['String'];
+  audio_name: Scalars['String'];
+  audio_id: Scalars['String'];
   guild_id: Scalars['String'];
 };
 
