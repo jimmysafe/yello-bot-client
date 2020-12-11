@@ -1,23 +1,35 @@
 import React, { FC } from 'react'
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
+import { BsFillPlayFill as PlayIcon, BsFillPauseFill as PauseIcon } from 'react-icons/bs'
 
 type Props = {
-    audio: AudioProps
+    audio: AudioProps,
+    index: number
 }
 
 type AudioProps = {
     id: string
     name: string
-    url: string
+    url: string,
 }
 
-const Audio: FC<Props> = ({ audio }) => {
+const Audio: FC<Props> = ({ audio, index }) => {
     return (
-        <div className="flex justify-between items-center p-5">
-            <div>{audio.name}</div>
-            <audio controls>
-                <source src={audio.url} type="audio/mpeg" />
-                Your browser does not support the audio element.
-            </audio>
+        <div className={`flex justify-between items-center px-5 py-7 font-secondary text-white bg-secondary ${index % 2 ? 'bg-opacity-100' : 'bg-opacity-50'}`}>
+            <div>!{audio.name}</div>
+            <AudioPlayer
+                volume={0.6}
+                src={audio.url}
+                onPlay={e => console.log("onPlay")}
+                showJumpControls={false}
+                showFilledVolume={false}
+                layout="horizontal-reverse"
+                customIcons={{
+                    play: <PlayIcon color="white" size={30}/>,
+                    pause: <PauseIcon color="white" size={30} />
+                }}
+            />
         </div>
     )
 }

@@ -1,9 +1,10 @@
 import { NextPage } from "next"
+import VideoEditor from "../components/VideoEditor"
 
 const Contact: NextPage = () => {
     return (
         <div className="text-white font-primary">
-            contact page
+            <VideoEditor />
         </div>
     )
 }

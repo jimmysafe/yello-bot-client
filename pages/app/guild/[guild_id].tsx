@@ -19,8 +19,8 @@ const Dashboard = ({ guild_id }: DashboardProps) => {
       console.log(data)
 
     return (
-        <div>
-            {data.audios.map(audio => <Audio key={audio.id} audio={audio}/>)}
+        <div className="py-5 max-w-card mx-auto">
+            {data.audios.map((audio, i) => <Audio key={audio.id} audio={audio} index={i}/>)}
         </div>
     )
 }

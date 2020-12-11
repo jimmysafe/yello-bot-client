@@ -3,3 +3,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* AUDIO PLAYER CUSTOM OVERRIDES */
+
+.rhap_additional-controls,
+#rhap_current-time,
+.rhap_total-time,
+.rhap_volume-controls
+{
+    display: none!important;
+}
+
+.rhap_controls-section {
+    flex: 0!important;
+}
+
+.rhap_container {
+    width: 300px!important;
+    background-color: #FFB300!important;
+    border-radius: 9px!important;
+}
+
+.rhap_progress-bar {
+    height: 7px!important;
+}
+
+.rhap_progress-indicator {
+    width: 18px!important;
+    height: 18px!important;
+    top: -6px!important;
+}
+
+.rhap_progress-indicator,
+.rhap_download-progress {
+    background-color: white!important;
+}
+
+.rhap_progress-filled {
+    background-color: #272727!important;
+}
