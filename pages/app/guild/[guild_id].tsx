@@ -15,7 +15,8 @@ const Dashboard = ({ guild_id }: DashboardProps) => {
       return Error(error.graphQLErrors[0].extensions.code)
     if(loading) 
       return <p>Loading..</p>
-  
+
+      console.log(data)
 
     return (
         <div>

@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import Nav from './Nav'
 
 type LayoutProps = {
     children: React.ReactNode
@@ -6,8 +7,8 @@ type LayoutProps = {
 
 const Layout: FC = ({ children }: LayoutProps) => {
     return (
-        <main>
-            {/* nav here */}
+        <main className="bg-bgColor min-h-screen">
+            <Nav />
             <div className="container mx-auto">
                 {children}
             </div>

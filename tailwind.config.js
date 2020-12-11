@@ -4,16 +4,25 @@ module.exports = {
   theme: {
     fontFamily: {
       'primary': ['Space Mono', 'monospace'],
-      'secondary': ['Nanum Pen Script', 'cursive']
-    },
-    borderRadius: {
-      DEFAULT: '9px'
+      'secondary': ['Montserrat', 'sans serif']
     },
     extend: {
       colors: {
         primary: '#FFB300',
         secondary: '#272727',
         bgColor: '#2E3034'
+      },
+      borderRadius: {
+        DEFAULT: '9px'
+      },
+      maxWidth: {
+        'card': '720px'
+      },
+      height: {
+        'icon': '64px'
+      },
+      width: {
+        'icon': '64px'
       }
     }
   },

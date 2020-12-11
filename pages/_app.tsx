@@ -29,7 +29,6 @@ const client = new ApolloClient({
 });
 
 const MyApp = ({ Component, pageProps }: AppProps)  => {
-  
   return (
     <ApolloProvider client={client}>
       <Layout>
@@ -38,5 +37,6 @@ const MyApp = ({ Component, pageProps }: AppProps)  => {
     </ApolloProvider>
   )
 }
+
 
 export default MyApp

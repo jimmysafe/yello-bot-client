@@ -7,8 +7,8 @@ type ButtonProps = {
 
 const Button: FC<ButtonProps> = ({ text, onClick }) => {
     return (
-        <div className="btn flex justify-center items-center px-8 py-3 rounded bg-teal cursor-pointer shadows border-2 border-black" onClick={onClick}>
-            <span className="text-black font-primary text-xs font-bold">
+        <div className="flex justify-center items-center px-8 py-3 rounded bg-primary cursor-pointer" onClick={onClick}>
+            <span className="text-secondary font-primary text-xs">
                 {text}
             </span>
         </div>
