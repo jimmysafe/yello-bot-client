@@ -4,16 +4,16 @@ import { IThumbProps } from 'react-range/lib/types'
 
 type Props = {
     props: IThumbProps,
-    slider: SliderValues,
+    time: TimeValues,
     index: number
 }
 
-type SliderValues = {
+type TimeValues = {
     values: number[]
 }
 
 
-const Thumb: FC<Props> = ({ props, slider, index }) => {
+const Thumb: FC<Props> = ({ props, time, index }) => {
     return (
         <div
             {...props}
@@ -29,20 +29,21 @@ const Thumb: FC<Props> = ({ props, slider, index }) => {
         >
             <div
                 style={{
-                position: "absolute",
-                top: "-28px",
-                color: "#fff",
-                fontWeight: "bold",
-                fontSize: "14px",
-                fontFamily: "Arial,Helvetica Neue,Helvetica,sans-serif",
-                padding: "4px",
-                borderRadius: "4px",
-                backgroundColor: "#548BF4"
+                    position: "absolute",
+                    top: index === 0 ? "-35px" : "25px",
+                    left: index === 0 ? '0px' : '-35px',
+                    color: "#272727",
+                    fontWeight: "bold",
+                    fontSize: "12px",
+                    fontFamily: 'Space Mono, monospace',
+                    padding: "4px",
+                    borderRadius: "4px",
+                    backgroundColor: "#FFB300"
                 }}
             >
                 {moment()
                 .startOf("day")
-                .seconds(slider.values[index])
+                .seconds(time.values[index])
                 .format("H:mm:ss")}
             </div>
             <div

@@ -1,11 +1,9 @@
 import { NextPage } from "next"
-import VideoEditor from "../components/VideoEditor"
+import Upload from "../components/Upload"
 
 const Contact: NextPage = () => {
     return (
-        <div className="text-white font-primary">
-            <VideoEditor />
-        </div>
+        <Upload />
     )
 }
 

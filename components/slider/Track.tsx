@@ -5,22 +5,22 @@ import { ITrackProps } from 'react-range/lib/types';
 type Props = {
     children: ReactNode,
     props: ITrackProps,
-    slider: SliderValues,
+    time: TimeValues,
     duration: number
 }
 
-type SliderValues = {
+type TimeValues = {
     values: number[]
 }
 
-const Track: FC<Props> = ({ children, props, slider, duration }) => {
+const Track: FC<Props> = ({ children, props, time, duration }) => {
     return (
         <div
             style={{
                 ...props.style,
                 height: "36px",
                 display: "flex",
-                width: "640px"
+                width: "100%"
             }}
         >
             <div
@@ -31,8 +31,8 @@ const Track: FC<Props> = ({ children, props, slider, duration }) => {
                     borderRadius: "4px",
                     alignSelf: "center",
                     background: getTrackBackground({
-                    values: slider.values,
-                    colors: ["#ccc", "#548BF4", "#ccc"],
+                    values: time.values,
+                    colors: ["#2E3034", "#FFB300", "#2E3034"],
                     min: 0,
                     max: duration
                     })
