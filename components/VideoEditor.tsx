@@ -25,8 +25,11 @@ const VideoEditor: FC<Props> = ({ time, setTime, url }) => {
     const [playing, setPlaying] = useState<boolean>(false);
     const [duration, setDuration] = useState<number>(0);
     const [currentVideoTime, setCurrentVideoTime] = useState<number>(0);
+    // const [youtubeVideo, setYoutubeVideo] = useState<string>('')
 
-    useEffect(() => console.log('new url!'), [url])
+    // useEffect(() => setYoutubeVideo(url), [url])
+
+    console.log(duration)
 
     return (
         <div>
