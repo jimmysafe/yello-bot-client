@@ -10,7 +10,8 @@ module.exports = {
       colors: {
         primary: '#FFB300',
         secondary: '#272727',
-        bgColor: '#2E3034'
+        bgColor: '#2E3034',
+        textGrey: '#AAAAAA'
       },
       borderRadius: {
         DEFAULT: '9px'

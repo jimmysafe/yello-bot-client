@@ -1,0 +1,12 @@
+mutation addAudio($name: String!, $guild_id: String!, $audioUrl: String!, $start: Float!, $end: Float!) {
+  audioFileAdd(
+    name: $name,
+    guild_id: $guild_id,
+    audioUrl: $audioUrl,
+    start: $start,
+    end: $end,
+  ) {
+		id
+        url
+  }
+}

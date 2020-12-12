@@ -103,6 +103,23 @@ export type MutationStripeCheckoutCreateArgs = {
   email: Scalars['String'];
 };
 
+export type AddAudioMutationVariables = Exact<{
+  name: Scalars['String'];
+  guild_id: Scalars['String'];
+  audioUrl: Scalars['String'];
+  start: Scalars['Float'];
+  end: Scalars['Float'];
+}>;
+
+
+export type AddAudioMutation = (
+  { __typename?: 'Mutation' }
+  & { audioFileAdd: (
+    { __typename?: 'Audio' }
+    & Pick<Audio, 'id' | 'url'>
+  ) }
+);
+
 export type GetAudiosQueryVariables = Exact<{
   guild_id: Scalars['String'];
 }>;
@@ -143,6 +160,49 @@ export type UserGuildsQuery = (
 );
 
 
+export const AddAudioDocument = gql`
+    mutation addAudio($name: String!, $guild_id: String!, $audioUrl: String!, $start: Float!, $end: Float!) {
+  audioFileAdd(
+    name: $name
+    guild_id: $guild_id
+    audioUrl: $audioUrl
+    start: $start
+    end: $end
+  ) {
+    id
+    url
+  }
+}
+    `;
+export type AddAudioMutationFn = Apollo.MutationFunction<AddAudioMutation, AddAudioMutationVariables>;
+
+/**
+ * __useAddAudioMutation__
+ *
+ * To run a mutation, you first call `useAddAudioMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddAudioMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addAudioMutation, { data, loading, error }] = useAddAudioMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      guild_id: // value for 'guild_id'
+ *      audioUrl: // value for 'audioUrl'
+ *      start: // value for 'start'
+ *      end: // value for 'end'
+ *   },
+ * });
+ */
+export function useAddAudioMutation(baseOptions?: Apollo.MutationHookOptions<AddAudioMutation, AddAudioMutationVariables>) {
+        return Apollo.useMutation<AddAudioMutation, AddAudioMutationVariables>(AddAudioDocument, baseOptions);
+      }
+export type AddAudioMutationHookResult = ReturnType<typeof useAddAudioMutation>;
+export type AddAudioMutationResult = Apollo.MutationResult<AddAudioMutation>;
+export type AddAudioMutationOptions = Apollo.BaseMutationOptions<AddAudioMutation, AddAudioMutationVariables>;
 export const GetAudiosDocument = gql`
     query getAudios($guild_id: String!) {
   audios(guild_id: $guild_id) {

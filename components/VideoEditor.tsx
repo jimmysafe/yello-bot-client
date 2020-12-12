@@ -6,11 +6,9 @@ import Track from './slider/Track';
 import Thumb from './slider/Thumb';
 import { BsFillPlayFill as PlayIcon, BsFillPauseFill as PauseIcon } from 'react-icons/bs'
 
-
 type TimeValues = {
     values: number[]
 }
-
 
 type Props = {
     time: TimeValues,
@@ -20,37 +18,40 @@ type Props = {
 
 const VideoEditor: FC<Props> = ({ time, setTime, url }) => {
 
-    const video = useRef(null);
+    const video = useRef<ReactPlayer>(null);
 
     const [playing, setPlaying] = useState<boolean>(false);
     const [duration, setDuration] = useState<number>(0);
     const [currentVideoTime, setCurrentVideoTime] = useState<number>(0);
-    // const [youtubeVideo, setYoutubeVideo] = useState<string>('')
-
-    // useEffect(() => setYoutubeVideo(url), [url])
-
-    console.log(duration)
 
     return (
         <div>
-             <div className="bg-secondary p-3 rounded mb-3">
+            <div className="bg-secondary p-3 rounded mb-3 relative" style={{ minWidth: 600, minHeight: 320 }}>
+                {/* Play button layer */}
+                <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center" onClick={() => setPlaying(!playing)} >
+                    {!playing && <PlayIcon color="#FFB300" size={220} />}
+                </div>
                 <ReactPlayer
                     playing={playing}
                     ref={video}
-                    volume={0.1}
+                    width="600px"
+                    height="320px"
+                    volume={0.5}
                     url={url}
+                    progressInterval={100}
                     onReady={() => {
+                        console.log('ready')
                         setDuration(video.current.getDuration());
                         setTime({
                             values: [time.values[0], video.current.getDuration()]
                         });
                     }}
-                    onProgress={() => {
-                        const start = time.values[0];
-                        const end = time.values[1];
-                        const currentTime = video.current.getCurrentTime().toFixed(2);
+                    onProgress={(x) => {
+                        const start: number = time.values[0];
+                        const end: number = time.values[1];
+                        const currentTime: number = x.playedSeconds;
 
-                        setCurrentVideoTime(video.current.getCurrentTime().toFixed(2));
+                        setCurrentVideoTime(currentTime);
 
                         if (currentTime >= end || currentTime < start) {
                             video.current.seekTo(start);
@@ -58,6 +59,7 @@ const VideoEditor: FC<Props> = ({ time, setTime, url }) => {
                     }}
                 />
             </div>
+
 
             {duration && (
                 <div className="bg-secondary p-3 rounded mb-3 flex items-center">
