@@ -6,6 +6,7 @@ import Error from '../../../errors'
 import Button from '../../../components/Button'
 import Upload from '../../../components/Upload'
 import { authorized } from '../../../utils'
+import Loading from '../../../components/Loading'
 
 type DashboardProps = {
     guild_id: string,
@@ -19,7 +20,7 @@ const Dashboard = ({ guild_id }: DashboardProps) => {
     if(error) 
       return Error(error.graphQLErrors[0].extensions.code)
     if(loading) 
-      return <p>Loading..</p>
+      return <Loading />
 
     return (
         <div className="py-5 max-w-card mx-auto">

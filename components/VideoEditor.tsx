@@ -40,7 +40,6 @@ const VideoEditor: FC<Props> = ({ time, setTime, url }) => {
                     url={url}
                     progressInterval={100}
                     onReady={() => {
-                        console.log('ready')
                         setDuration(video.current.getDuration());
                         setTime({
                             values: [time.values[0], video.current.getDuration()]
@@ -61,7 +60,7 @@ const VideoEditor: FC<Props> = ({ time, setTime, url }) => {
             </div>
 
 
-            {duration && (
+            {duration && url &&  (
                 <div className="bg-secondary p-3 rounded mb-3 flex items-center">
                     <p className="text-white font-primary text-xs">{moment().startOf("day").seconds(currentVideoTime).format("H:mm:ss")}</p>
                     <div className="mx-5 cursor-pointer">

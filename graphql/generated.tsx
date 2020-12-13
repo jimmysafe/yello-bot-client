@@ -46,6 +46,7 @@ export type Audio = {
   id: Scalars['ID'];
   name: Scalars['String'];
   url: Scalars['String'];
+  guild: Scalars['String'];
 };
 
 /** The User Guild model */

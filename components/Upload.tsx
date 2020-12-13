@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 import VideoEditor from './VideoEditor'
 import Button from './Button'
+import ButtonLoading from './ButtonLoading'
 import { IoIosClose as ClearIcon } from 'react-icons/io'
 import { useAddAudioMutation } from '../graphql/generated'
 import { YouTubeGetID } from '../utils';
@@ -108,18 +109,25 @@ const Upload: FC<Props> = ({ close, guild_id, refetchAudios }) => {
                 
                 <VideoEditor time={time} setTime={setTime} url={url} />
 
-                <div className="my-3 h-5">
-                    <p className="text-white font-secondary text-sm">
-                        {!allowedLength ?  'Audio can be max 10 seconds.' : ' '}
-                        {errorMessage && errorMessage}
-                    </p>
-                </div>
-                
-                
-                <Button text="Upload" disabled={!allowedLength} />
-                <div className="mt-3 cursor-pointer" onClick={close}>
-                    <p className="text-sm text-white font-secondary font-medium">Cancel</p>
-                </div>
+                {url &&
+                    <>
+                        <div className="my-3 h-5">
+                            <p className="text-white font-secondary text-sm">
+                                {!allowedLength ?  'Audio can be max 10 seconds.' : ' '}
+                                {errorMessage && errorMessage}
+                            </p>
+                        </div>
+                        
+                        {loading ?
+                            <ButtonLoading loader="/assets/loader.svg" disabled={true} />
+                            : <Button text="Upload" disabled={!allowedLength} />
+                        }
+                        <div className="mt-3 cursor-pointer" onClick={close}>
+                            <p className="text-sm text-white font-secondary font-medium">Cancel</p>
+                        </div>
+
+                    </>
+                }
             </form>
         </div>
     )

@@ -4,6 +4,7 @@ import { GetServerSideProps, NextPage  } from 'next'
 import { NextRouter, useRouter } from 'next/router'
 import { FiArrowRight as Arrow } from "react-icons/fi";
 import Error from '../../errors'
+import Loading from '../../components/Loading';
 
 type Cookies = {
     userid: string,
@@ -24,7 +25,7 @@ const Servers: NextPage<PageProps> = () => {
     const { data, error, loading } = useUserGuildsQuery()
 
     if(error)  return Error(error.graphQLErrors[0].extensions.code)
-    if(loading) console.log(loading)
+    if(loading) return <Loading />
 
     return (
         <div className="py-5">

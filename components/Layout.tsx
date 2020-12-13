@@ -9,7 +9,7 @@ const Layout: FC = ({ children }: LayoutProps) => {
     return (
         <main className="bg-bgColor min-h-screen">
             <Nav />
-            <div className="container mx-auto">
+            <div className="container mx-auto relative">
                 {children}
             </div>
         </main>
