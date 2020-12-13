@@ -1,6 +1,6 @@
 
-export const redirect = (ctx: any) => {
-    ctx.res.setHeader("location", "/");
+export const redirect = (ctx: any, path: string) => {
+    ctx.res.setHeader("location", path);
     ctx.res.statusCode = 302;
     ctx.res.end();
 }
@@ -20,7 +20,7 @@ export const authorized = (ctx: any) => {
 
        return cookies
 
-    } else redirect(ctx)
+    } else redirect(ctx, '/auth/login')
 }
 
 export const YouTubeGetID = (url: string) => {

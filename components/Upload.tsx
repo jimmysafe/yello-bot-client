@@ -11,10 +11,11 @@ type TimeValues = {
 
 type Props = {
     close: () => void,
-    guild_id: string
+    guild_id: string,
+    refetchAudios: () => void
 }
 
-const Upload: FC<Props> = ({ close, guild_id }) => {
+const Upload: FC<Props> = ({ close, guild_id, refetchAudios }) => {
 
     const [addAudio, { data, loading, error }] = useAddAudioMutation()
 
@@ -32,7 +33,6 @@ const Upload: FC<Props> = ({ close, guild_id }) => {
 
     const upload = async(e: any) => {
         e.preventDefault()
-
         // Check if video is valid
         if(time.values[0] === 0 && time.values[1] === 0){
             setErrorMessage('Error: Invalid Youtube video url.')
@@ -45,18 +45,24 @@ const Upload: FC<Props> = ({ close, guild_id }) => {
         }
 
         setErrorMessage('')
-        const audio = await addAudio({ variables: {
-            audioUrl: url,
-            guild_id,
-            name,
-            start: time.values[0],
-            end: time.values[1]
-        } })
-
-        console.log('audio', audio)
+        try {
+            await addAudio({ variables: {
+                audioUrl: url,
+                guild_id,
+                name,
+                start: time.values[0],
+                end: time.values[1]
+            } })
+            setErrorMessage('')
+            refetchAudios()
+            close()
+        } catch(err) {
+            console.log(err)
+            setErrorMessage(err.message)
+        }
     }
 
-    console.log(data, loading, error)
+    console.log(data)
 
     return (
         <div className="fixed top-0 left-0 bg-black bg-opacity-50 w-full h-screen flex justify-center items-center z-10">

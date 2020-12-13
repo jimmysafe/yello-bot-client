@@ -53,12 +53,8 @@ const Servers: NextPage<PageProps> = () => {
 }
 
 export const getServerSideProps: GetServerSideProps = async(ctx) => {
-
-    return {
-        props: {
-            cookies: authorized(ctx) || null
-        }
-    }    
+    authorized(ctx)
+    return { props: {} }    
 }
 
 export default Servers

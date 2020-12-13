@@ -16,7 +16,7 @@ const Error = (errorCode : string) => {
             Cookies.remove('accessToken')
             Cookies.remove('username')
             Cookies.remove('avatar')
-            router.push('/')
+            router.push('/auth/login')
             return <></>
         case UNINVITED:
             return <h1>UNINVITED</h1>

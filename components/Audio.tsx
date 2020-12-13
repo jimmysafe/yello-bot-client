@@ -21,7 +21,6 @@ const Audio: FC<Props> = ({ audio, index }) => {
             <AudioPlayer
                 volume={0.6}
                 src={audio.url}
-                onPlay={e => console.log("onPlay")}
                 showJumpControls={false}
                 showFilledVolume={false}
                 layout="horizontal-reverse"

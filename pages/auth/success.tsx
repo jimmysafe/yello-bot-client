@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import Cookies from 'js-cookie'
 import moment from 'moment';
+import { BiCheck as Check } from 'react-icons/bi'
 
 
 const SuccessAuth = () => {
@@ -42,8 +43,8 @@ const SuccessAuth = () => {
     }, [])    
 
     return (
-        <div>
-            success
+        <div className="fixed top-0 left-0 w-full h-screen flex justify-center items-center bg-bgColor z-10">
+            <Check color="#FFB300" size={50}/>
         </div>
     )
 }
