@@ -1,8 +1,8 @@
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { NextRouter, useRouter } from 'next/router'
 import Button from './Button'
-
+import { openDiscordLoginPopup } from '../utils' 
 
 const token: string = Cookies.get('accessToken')
 const username: string = Cookies.get('username')
@@ -18,25 +18,11 @@ const links = [
 
 const Nav: FC = () => {
     const router: NextRouter = useRouter()
-    const discordLink: string = 'https://discord.com/api/oauth2/authorize?client_id=783637010819973142&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fsuccess&response_type=token&scope=identify%20guilds'
-
     const [loggedIn, setLoggedIn] = useState<boolean>(false)
 
     useEffect(() => {
         if(token && username && avatar && userid) setLoggedIn(true)
     }, [])
-
-    console.log(loggedIn)
-
-    const openPopup = (
-        url: string, 
-        width: number, 
-        height: number
-      ) => {
-        const left = (window.innerWidth - width) / 2;
-        const top = (window.innerHeight - height) / 4;
-        window.open(url, "", `width=${width}, height=${height}, top=${top} left=${left}`)
-      } 
 
     return (
         <header className="py-4">
@@ -69,7 +55,7 @@ const Nav: FC = () => {
                     })}
 
 
-                    {!loggedIn && <Button onClick={() => openPopup(discordLink, 500, 800)} text="Login"/>}
+                    {!loggedIn && <Button onClick={() => openDiscordLoginPopup()} text="Login"/>}
                     
                 </div>
             </nav>

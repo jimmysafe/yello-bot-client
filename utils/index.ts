@@ -27,3 +27,13 @@ export const YouTubeGetID = (url: string) => {
     const arr = url.split(/(vi\/|v%3D|v=|\/v\/|youtu\.be\/|\/embed\/)/);
     return undefined !== arr[2] ? arr[2].split(/[^\w-]/i)[0] : arr[0];
 }
+
+export const openDiscordLoginPopup = () => {
+    const width: number = 500
+    const height: number = 800
+    const url: string = 'https://discord.com/api/oauth2/authorize?client_id=783637010819973142&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fsuccess&response_type=token&scope=identify%20guilds'
+
+    const left = (window.innerWidth - width) / 2;
+    const top = (window.innerHeight - height) / 4;
+    window.open(url, "", `width=${width}, height=${height}, top=${top} left=${left}`)
+  } 

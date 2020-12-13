@@ -122,12 +122,11 @@ const Upload: FC<Props> = ({ close, guild_id, refetchAudios }) => {
                             <ButtonLoading loader="/assets/loader.svg" disabled={true} />
                             : <Button text="Upload" disabled={!allowedLength} />
                         }
-                        <div className="mt-3 cursor-pointer" onClick={close}>
-                            <p className="text-sm text-white font-secondary font-medium">Cancel</p>
-                        </div>
-
                     </>
                 }
+                <div className="mt-3 cursor-pointer" onClick={close}>
+                    <p className="text-sm text-white font-secondary font-medium">Cancel</p>
+                </div>
             </form>
         </div>
     )
