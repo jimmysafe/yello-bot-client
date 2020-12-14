@@ -35,7 +35,7 @@ const SuccessAuth = () => {
                 Cookies.set('avatar', avatar, { expires: 7 })
 
 
-                window.opener.location.href = 'http://localhost:3000/app/servers'
+                window.opener.location.href = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/app/servers' : 'https://yellobot.me/app/servers'
                 window.close()
             } )
             .catch( err => console.log(err) )
