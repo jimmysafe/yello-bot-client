@@ -6,8 +6,10 @@ import { setContext } from '@apollo/client/link/context';
 import Cookies from 'js-cookie'
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:5000/graphql'
+  uri: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/graphql' : 'https://api.yellobot.me/graphql',
+  credentials: 'same-origin'
 });
+
 
 const authLink = setContext((_, { headers }) => {
   const accessToken = Cookies.get('accessToken')
