@@ -31,7 +31,9 @@ export const YouTubeGetID = (url: string) => {
 export const openDiscordLoginPopup = () => {
     const width: number = 500
     const height: number = 800
-    const url: string = 'https://discord.com/api/oauth2/authorize?client_id=783637010819973142&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fsuccess&response_type=token&scope=identify%20guilds'
+    const devUrl: string = 'https://discord.com/api/oauth2/authorize?client_id=783637010819973142&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fsuccess&response_type=token&scope=identify%20guilds'
+    const prodUrl: string = 'https://discord.com/api/oauth2/authorize?client_id=783637010819973142&redirect_uri=https%3A%2F%2Fyellobot.me%2Fauth%2Fsuccess&response_type=token&scope=identify%20guilds'
+    const url: string = process.env.NODE_ENV === 'development' ? devUrl : prodUrl
 
     const left = (window.innerWidth - width) / 2;
     const top = (window.innerHeight - height) / 4;
