@@ -63,8 +63,6 @@ const Upload: FC<Props> = ({ close, guild_id, refetchAudios }) => {
         }
     }
 
-    console.log(data)
-
     return (
         <div className="fixed top-0 left-0 bg-black bg-opacity-50 w-full h-screen flex justify-center items-center z-10">
             <form className="flex flex-col justify-center items-center bg-bgColor py-5 px-12 rounded" onSubmit={upload}>

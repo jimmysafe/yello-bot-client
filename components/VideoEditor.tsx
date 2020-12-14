@@ -77,13 +77,9 @@ const VideoEditor: FC<Props> = ({ time, setTime, url }) => {
                             max={duration}
                             values={time.values}
                             renderThumb={({ props, index }) => <Thumb key={index} props={props} index={index} time={time}/>}
-                            renderTrack={({ props, children, isDragged }) => {
-                                if (isDragged) setPlaying(false);
-                                // else setPlaying(true);
-                                return <Track children={children} props={props} time={time} duration={duration} />
-                            }}
+                            renderTrack={({ props, children, isDragged }) => <Track children={children} props={props} time={time} duration={duration} isDragged={isDragged} playing={playing} setPlaying={setPlaying} /> }
                             onChange={(values) => {
-                                setPlaying(false);
+                                if(playing) setPlaying(false);
                                 setTime({ values });
                                 video.current.seekTo(values[0]);
                             }}

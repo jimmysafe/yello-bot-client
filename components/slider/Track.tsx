@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, useEffect, Dispatch, SetStateAction } from 'react'
 import { getTrackBackground } from "react-range";
 import { ITrackProps } from 'react-range/lib/types';
 
@@ -6,14 +6,22 @@ type Props = {
     children: ReactNode,
     props: ITrackProps,
     time: TimeValues,
-    duration: number
+    duration: number,
+    playing: boolean,
+    setPlaying: Dispatch<SetStateAction<boolean>>,
+    isDragged: boolean
 }
 
 type TimeValues = {
     values: number[]
 }
 
-const Track: FC<Props> = ({ children, props, time, duration }) => {
+const Track: FC<Props> = ({ children, props, time, duration, isDragged, playing, setPlaying }) => {
+
+    useEffect(() => {
+        if (isDragged && playing) setPlaying(false);
+    }, [isDragged])
+
     return (
         <div
             style={{
