@@ -1,6 +1,6 @@
 module.exports = {
-  purge: ['./pages/**/*.tsx', './components/**/*.tsx, ./pages/**/*.js', './components/**/*.js'],
-  darkMode: false, // or 'media' or 'class'
+  purge: ['./pages/**/*.tsx', './components/**/*.tsx'],
+  darkMode: false,
   theme: {
     fontFamily: {
       'primary': ['Space Mono', 'monospace'],

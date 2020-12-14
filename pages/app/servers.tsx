@@ -33,7 +33,7 @@ const Servers: NextPage<PageProps> = () => {
             {data?.userGuilds.map(guild => (
                 <div 
                     key={guild.id} 
-                    className="group flex max-w-card mx-auto justify-between items-center p-5 mb-5 cursor-pointer hover:shadow-lg transition duration-300 ease-in-out rounded" 
+                    className="group flex max-w-card mx-auto justify-between items-center p-5 mb-5 cursor-pointer hover:shadow-2xl transition duration-300 ease-in-out rounded" 
                     onClick={() => router.push(`/app/guild/${guild.id}`)}
                 >
                     <div className="flex items-center">
