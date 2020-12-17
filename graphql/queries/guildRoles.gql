@@ -1,0 +1,6 @@
+query guildRoles($guild_id: String!){
+  guildRoles(guild_id: $guild_id){
+    id
+    name
+  }
+}

@@ -8,6 +8,56 @@
     outline: none!important;
 }
 
+/* SETTINGS SELECT CUSTOM OVERRIDES */
+
+.inner_select__control {
+    @apply py-2;
+    border-radius: 9px!important;
+    width: 400px;
+    background-color: #272727!important;
+    border: none!important;
+    outline: none!important;
+    box-shadow: none!important;
+}
+
+.inner_select__multi-value {
+    background-color: #FFB300!important;
+    font-family: 'Space Mono', 'monospace'!important;
+    color: #272727!important;
+    font-weight: bold;
+}
+
+.inner_select__indicator-separator {
+    display: none!important;
+}
+
+.inner_select__menu {
+    background-color: #272727!important;
+    border: none!important;
+    color: white!important;
+}
+
+.inner_select__option {
+    cursor: pointer!important;
+    font-family: 'Space Mono', 'monospace'!important;
+    font-weight: bold;
+    background-color: #272727!important;
+}
+
+.inner_select__option:hover {
+    background-color: #FFB300!important;
+    color: #272727!important;
+}
+
+.inner_select__multi-value__remove{
+    cursor: pointer;
+}
+
+.inner_select__multi-value__remove:hover {
+    background-color: #2E3034!important;
+    color: #DE350B!important;
+}
+
 /* AUDIO PLAYER CUSTOM OVERRIDES */
 
 .rhap_additional-controls,
