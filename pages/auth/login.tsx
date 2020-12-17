@@ -9,17 +9,25 @@ type Props = {
 
 const Login: NextPage<Props> = () => {
     return (
-        <div className="fixed top-0 left-0 w-full h-screen bg-bgColor flex justify-center items-center flex-col">
-            <img src="/assets/logo.png" alt="Yello Logo" className="w-32 mb-12"/>
-            <div className="mb-12 text-white text-center">
-                <h1 className="font-primary font-bold text-xl mb-3">Welcome to Yello's website</h1>
-                <h3 className="font-primary text-lg">Please login to proceed...</h3>
+        <div className="w-full bg-bgColor pt-36">
+            <div className="container mx-auto h-full flex justify-between items-center">
+                <div className="flex-1">
+                    <img src="/assets/hello.png" alt="Yello Logo" className="w-2/3 ml-auto"/>
+                </div>
+                <div className="flex-1">
+                    <div className="p-10 flex flex-col justify-center items-center">
+                       <h1 className=" text-primary font-secondary text-8xl text-center">Welcome<br/> to Yello!</h1>
+                       <p className="my-12 text-white font-secondary font-medium text-md uppercase">
+                        please login with discord to proceed..
+                       </p>
+                        <Button 
+                            text="Login with Discord" 
+                            icon={ <DiscordIcon size={30} className="mr-3"/> }
+                            onClick={() => openDiscordLoginPopup()}
+                        />
+                    </div>
+                </div>
             </div>
-            <Button 
-                text="Login with Discord" 
-                icon={ <DiscordIcon size={30} className="mr-3"/> }
-                onClick={() => openDiscordLoginPopup()}
-            />
         </div>
     )
 }
