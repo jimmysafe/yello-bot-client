@@ -18,11 +18,17 @@ export type Query = {
   guilds: Array<Guild>;
   guild: Guild;
   userGuilds: Array<GuildType>;
+  guildRoles: Array<RoleType>;
   audios: Array<Audio>;
 };
 
 
 export type QueryGuildArgs = {
+  guild_id: Scalars['String'];
+};
+
+
+export type QueryGuildRolesArgs = {
   guild_id: Scalars['String'];
 };
 
@@ -37,7 +43,17 @@ export type Guild = {
   id: Scalars['ID'];
   guild_id: Scalars['String'];
   type: Scalars['String'];
+  prefix: Scalars['String'];
+  roles: Array<RoleType>;
+  owner: Scalars['String'];
   files: Array<Audio>;
+};
+
+/** The Guild Role model */
+export type RoleType = {
+  __typename?: 'RoleType';
+  id: Scalars['String'];
+  name: Scalars['String'];
 };
 
 /** The Audio File model */
@@ -64,6 +80,7 @@ export type GuildType = {
 export type Mutation = {
   __typename?: 'Mutation';
   guildUpgrade: Guild;
+  guildSettingsUpdate: Guild;
   audioFileAdd: Audio;
   audioFileDelete: Audio;
   audioFileUpdate: Audio;
@@ -72,6 +89,13 @@ export type Mutation = {
 
 
 export type MutationGuildUpgradeArgs = {
+  guild_id: Scalars['String'];
+};
+
+
+export type MutationGuildSettingsUpdateArgs = {
+  roles: Array<RoleInput>;
+  prefix: Scalars['String'];
   guild_id: Scalars['String'];
 };
 
@@ -104,6 +128,11 @@ export type MutationStripeCheckoutCreateArgs = {
   email: Scalars['String'];
 };
 
+export type RoleInput = {
+  id: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type AddAudioMutationVariables = Exact<{
   name: Scalars['String'];
   guild_id: Scalars['String'];
@@ -121,6 +150,25 @@ export type AddAudioMutation = (
   ) }
 );
 
+export type UpdateGuildSettingsMutationVariables = Exact<{
+  guild_id: Scalars['String'];
+  roles: Array<RoleInput>;
+  prefix: Scalars['String'];
+}>;
+
+
+export type UpdateGuildSettingsMutation = (
+  { __typename?: 'Mutation' }
+  & { guildSettingsUpdate: (
+    { __typename?: 'Guild' }
+    & Pick<Guild, 'prefix' | 'guild_id'>
+    & { roles: Array<(
+      { __typename?: 'RoleType' }
+      & Pick<RoleType, 'id' | 'name'>
+    )> }
+  ) }
+);
+
 export type GetAudiosQueryVariables = Exact<{
   guild_id: Scalars['String'];
 }>;
@@ -131,6 +179,36 @@ export type GetAudiosQuery = (
   & { audios: Array<(
     { __typename?: 'Audio' }
     & Pick<Audio, 'id' | 'name' | 'url'>
+  )> }
+);
+
+export type GuildQueryVariables = Exact<{
+  guild_id: Scalars['String'];
+}>;
+
+
+export type GuildQuery = (
+  { __typename?: 'Query' }
+  & { guild: (
+    { __typename?: 'Guild' }
+    & Pick<Guild, 'guild_id' | 'type' | 'prefix' | 'owner'>
+    & { roles: Array<(
+      { __typename?: 'RoleType' }
+      & Pick<RoleType, 'id' | 'name'>
+    )> }
+  ) }
+);
+
+export type GuildRolesQueryVariables = Exact<{
+  guild_id: Scalars['String'];
+}>;
+
+
+export type GuildRolesQuery = (
+  { __typename?: 'Query' }
+  & { guildRoles: Array<(
+    { __typename?: 'RoleType' }
+    & Pick<RoleType, 'id' | 'name'>
   )> }
 );
 
@@ -204,6 +282,45 @@ export function useAddAudioMutation(baseOptions?: Apollo.MutationHookOptions<Add
 export type AddAudioMutationHookResult = ReturnType<typeof useAddAudioMutation>;
 export type AddAudioMutationResult = Apollo.MutationResult<AddAudioMutation>;
 export type AddAudioMutationOptions = Apollo.BaseMutationOptions<AddAudioMutation, AddAudioMutationVariables>;
+export const UpdateGuildSettingsDocument = gql`
+    mutation updateGuildSettings($guild_id: String!, $roles: [RoleInput!]!, $prefix: String!) {
+  guildSettingsUpdate(guild_id: $guild_id, roles: $roles, prefix: $prefix) {
+    roles {
+      id
+      name
+    }
+    prefix
+    guild_id
+  }
+}
+    `;
+export type UpdateGuildSettingsMutationFn = Apollo.MutationFunction<UpdateGuildSettingsMutation, UpdateGuildSettingsMutationVariables>;
+
+/**
+ * __useUpdateGuildSettingsMutation__
+ *
+ * To run a mutation, you first call `useUpdateGuildSettingsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateGuildSettingsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateGuildSettingsMutation, { data, loading, error }] = useUpdateGuildSettingsMutation({
+ *   variables: {
+ *      guild_id: // value for 'guild_id'
+ *      roles: // value for 'roles'
+ *      prefix: // value for 'prefix'
+ *   },
+ * });
+ */
+export function useUpdateGuildSettingsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateGuildSettingsMutation, UpdateGuildSettingsMutationVariables>) {
+        return Apollo.useMutation<UpdateGuildSettingsMutation, UpdateGuildSettingsMutationVariables>(UpdateGuildSettingsDocument, baseOptions);
+      }
+export type UpdateGuildSettingsMutationHookResult = ReturnType<typeof useUpdateGuildSettingsMutation>;
+export type UpdateGuildSettingsMutationResult = Apollo.MutationResult<UpdateGuildSettingsMutation>;
+export type UpdateGuildSettingsMutationOptions = Apollo.BaseMutationOptions<UpdateGuildSettingsMutation, UpdateGuildSettingsMutationVariables>;
 export const GetAudiosDocument = gql`
     query getAudios($guild_id: String!) {
   audios(guild_id: $guild_id) {
@@ -239,6 +356,80 @@ export function useGetAudiosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetAudiosQueryHookResult = ReturnType<typeof useGetAudiosQuery>;
 export type GetAudiosLazyQueryHookResult = ReturnType<typeof useGetAudiosLazyQuery>;
 export type GetAudiosQueryResult = Apollo.QueryResult<GetAudiosQuery, GetAudiosQueryVariables>;
+export const GuildDocument = gql`
+    query guild($guild_id: String!) {
+  guild(guild_id: $guild_id) {
+    guild_id
+    type
+    prefix
+    roles {
+      id
+      name
+    }
+    owner
+  }
+}
+    `;
+
+/**
+ * __useGuildQuery__
+ *
+ * To run a query within a React component, call `useGuildQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGuildQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGuildQuery({
+ *   variables: {
+ *      guild_id: // value for 'guild_id'
+ *   },
+ * });
+ */
+export function useGuildQuery(baseOptions: Apollo.QueryHookOptions<GuildQuery, GuildQueryVariables>) {
+        return Apollo.useQuery<GuildQuery, GuildQueryVariables>(GuildDocument, baseOptions);
+      }
+export function useGuildLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GuildQuery, GuildQueryVariables>) {
+          return Apollo.useLazyQuery<GuildQuery, GuildQueryVariables>(GuildDocument, baseOptions);
+        }
+export type GuildQueryHookResult = ReturnType<typeof useGuildQuery>;
+export type GuildLazyQueryHookResult = ReturnType<typeof useGuildLazyQuery>;
+export type GuildQueryResult = Apollo.QueryResult<GuildQuery, GuildQueryVariables>;
+export const GuildRolesDocument = gql`
+    query guildRoles($guild_id: String!) {
+  guildRoles(guild_id: $guild_id) {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useGuildRolesQuery__
+ *
+ * To run a query within a React component, call `useGuildRolesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGuildRolesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGuildRolesQuery({
+ *   variables: {
+ *      guild_id: // value for 'guild_id'
+ *   },
+ * });
+ */
+export function useGuildRolesQuery(baseOptions: Apollo.QueryHookOptions<GuildRolesQuery, GuildRolesQueryVariables>) {
+        return Apollo.useQuery<GuildRolesQuery, GuildRolesQueryVariables>(GuildRolesDocument, baseOptions);
+      }
+export function useGuildRolesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GuildRolesQuery, GuildRolesQueryVariables>) {
+          return Apollo.useLazyQuery<GuildRolesQuery, GuildRolesQueryVariables>(GuildRolesDocument, baseOptions);
+        }
+export type GuildRolesQueryHookResult = ReturnType<typeof useGuildRolesQuery>;
+export type GuildRolesLazyQueryHookResult = ReturnType<typeof useGuildRolesLazyQuery>;
+export type GuildRolesQueryResult = Apollo.QueryResult<GuildRolesQuery, GuildRolesQueryVariables>;
 export const GuildsDocument = gql`
     query guilds {
   guilds {

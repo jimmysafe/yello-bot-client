@@ -5,7 +5,8 @@ import { BsFillPlayFill as PlayIcon, BsFillPauseFill as PauseIcon } from 'react-
 
 type Props = {
     audio: AudioProps,
-    index: number
+    index: number,
+    prefix: string
 }
 
 type AudioProps = {
@@ -14,10 +15,10 @@ type AudioProps = {
     url: string,
 }
 
-const Audio: FC<Props> = ({ audio, index }) => {
+const Audio: FC<Props> = ({ audio, index, prefix }) => {
     return (
         <div className={`flex justify-between items-center px-5 py-7 font-secondary text-white bg-secondary ${index % 2 ? 'bg-opacity-100' : 'bg-opacity-50'}`}>
-            <div>!{audio.name}</div>
+            <div>{prefix}{audio.name}</div>
             <AudioPlayer
                 volume={0.6}
                 src={audio.url}

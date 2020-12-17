@@ -1,0 +1,12 @@
+query guild($guild_id: String!) {
+  guild(guild_id: $guild_id){
+    guild_id
+    type
+    prefix
+    roles{
+      id
+      name
+    }
+    owner
+  }
+}

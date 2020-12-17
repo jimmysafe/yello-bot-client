@@ -1,0 +1,15 @@
+
+mutation updateGuildSettings($guild_id: String!, $roles: [RoleInput!]!, $prefix: String!) {
+  guildSettingsUpdate(
+      guild_id: $guild_id, 
+      roles: $roles, 
+      prefix: $prefix
+    ){
+    roles{
+      id
+      name
+    }
+    prefix
+    guild_id
+  }
+}
