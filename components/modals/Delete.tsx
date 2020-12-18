@@ -8,16 +8,18 @@ type Props = {
     audio_id: string,
     guild_id: string,
     refetchAudios: () => void,
+    refetchGuild: () => void,
     close: () => void
 }
 
-const Delete: FC<Props> = ({ audio_name, audio_id, guild_id, refetchAudios, close }) => {
+const Delete: FC<Props> = ({ audio_name, audio_id, guild_id, refetchAudios, refetchGuild, close }) => {
 
     const [deleteAudio, { loading, error }] = useDeleteAudioMutation()
 
     const handleDelete = async() => {
         try {
             await deleteAudio({ variables: { audio_id, audio_name, guild_id } })
+            refetchGuild()
             refetchAudios()
             close()
         } catch(err) {

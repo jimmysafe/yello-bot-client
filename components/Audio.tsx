@@ -12,7 +12,8 @@ type Props = {
     index: number,
     prefix: string,
     guild_id: string,
-    refetchAudios: () => void
+    refetchAudios: () => void,
+    refetchGuild: () => void
 }
 
 type AudioProps = {
@@ -21,15 +22,15 @@ type AudioProps = {
     url: string,
 }
 
-const Audio: FC<Props> = ({ audio, index, prefix, guild_id, refetchAudios }) => {
+const Audio: FC<Props> = ({ audio, index, prefix, guild_id, refetchAudios, refetchGuild }) => {
 
     const [isDeleting, setIsDeleting] = useState<boolean>(false)
     const [isEditing, setIsEditing] = useState<boolean>(false)
 
     return (
         <>
-        {isDeleting && <Delete audio_id={audio.id} guild_id={guild_id} audio_name={audio.name} refetchAudios={refetchAudios} close={() => setIsDeleting(false)}/>}
-        {isEditing && <Edit audio_id={audio.id} guild_id={guild_id} audio_name={audio.name} refetchAudios={refetchAudios} close={() => setIsEditing(false)}/>}
+        {isDeleting && <Delete audio_id={audio.id} guild_id={guild_id} audio_name={audio.name} refetchAudios={refetchAudios} refetchGuild={refetchGuild} close={() => setIsDeleting(false)}/>}
+        {isEditing && <Edit audio_id={audio.id} guild_id={guild_id} audio_name={audio.name} refetchAudios={refetchAudios} refetchGuild={refetchGuild} close={() => setIsEditing(false)}/>}
         <div className={`flex justify-between items-center px-5 py-7 font-secondary text-white bg-secondary ${index % 2 ? 'bg-opacity-100' : 'bg-opacity-50'}`}>
             <div>{prefix}{audio.name}</div>
             <div className="flex items-center">

@@ -8,10 +8,11 @@ type Props = {
     audio_id: string,
     guild_id: string,
     refetchAudios: () => void,
+    refetchGuild: () => void,
     close: () => void
 }
 
-const Edit: FC<Props> = ({ audio_name, audio_id, guild_id, refetchAudios, close }) => {
+const Edit: FC<Props> = ({ audio_name, audio_id, guild_id, refetchAudios, refetchGuild, close }) => {
 
     const inputRef = useRef<HTMLInputElement>(null)
     const [errorMessage, setErrorMessage] = useState<string>('')
@@ -44,6 +45,7 @@ const Edit: FC<Props> = ({ audio_name, audio_id, guild_id, refetchAudios, close 
                 guild_id,
                 new_audio_name
             } })
+            refetchGuild()
             refetchAudios()
             close()
         } catch(err) {

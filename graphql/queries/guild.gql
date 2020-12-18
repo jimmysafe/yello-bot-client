@@ -7,6 +7,9 @@ query guild($guild_id: String!) {
       id
       name
     }
+    files {
+      id
+    }
     owner
   }
 }

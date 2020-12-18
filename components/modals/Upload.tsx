@@ -13,10 +13,11 @@ type TimeValues = {
 type Props = {
     close: () => void,
     guild_id: string,
-    refetchAudios: () => void
+    refetchAudios: () => void,
+    refetchGuild: () => void
 }
 
-const Upload: FC<Props> = ({ close, guild_id, refetchAudios }) => {
+const Upload: FC<Props> = ({ close, guild_id, refetchAudios, refetchGuild }) => {
 
     const [addAudio, { data, loading, error }] = useAddAudioMutation()
 
@@ -55,6 +56,7 @@ const Upload: FC<Props> = ({ close, guild_id, refetchAudios }) => {
                 end: time.values[1]
             } })
             setErrorMessage('')
+            refetchGuild()
             refetchAudios()
             close()
         } catch(err) {

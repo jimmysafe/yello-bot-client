@@ -226,6 +226,9 @@ export type GuildQuery = (
     & { roles: Array<(
       { __typename?: 'RoleType' }
       & Pick<RoleType, 'id' | 'name'>
+    )>, files: Array<(
+      { __typename?: 'Audio' }
+      & Pick<Audio, 'id'>
     )> }
   ) }
 );
@@ -476,6 +479,9 @@ export const GuildDocument = gql`
     roles {
       id
       name
+    }
+    files {
+      id
     }
     owner
   }

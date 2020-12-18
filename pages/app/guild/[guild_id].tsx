@@ -19,7 +19,7 @@ const Dashboard = ({ guild_id }: DashboardProps) => {
     const [showSettings, setShowSettings] = useState<boolean>(false)
 
     const { data: guildData, error: guildError, loading: guildLoading, refetch: refetchGuild } = useGuildQuery({ variables: { guild_id } })
-    const { data, error, loading, refetch } = useGetAudiosQuery({ variables: { guild_id } })
+    const { data, error, loading, refetch: refetchAudios } = useGetAudiosQuery({ variables: { guild_id } })
 
     if(guildError) return Error(guildError.graphQLErrors[0].extensions.code)
     if(error) return Error(error.graphQLErrors[0].extensions.code)
@@ -28,18 +28,23 @@ const Dashboard = ({ guild_id }: DashboardProps) => {
       return <Loading hScreen/>
 
     const isOwner = guildData.guild.owner === Cookies.get("userid")
+
+    console.log(guildData.guild)
  
+    const cantUpload = guildData.guild.files.length >= 10 && guildData.guild.type === "BASIC"
+
     return (
         <div className="py-5 max-w-card mx-auto">
             {showSettings && <Settings prefix={guildData.guild.prefix} refetchGuild={refetchGuild} close={() => setShowSettings(false)} roles={guildData.guild.roles} guild_id={guild_id} />}
-            {showUpload && <Upload guild_id={guild_id} close={() => setShowUpload(false)} refetchAudios={refetch}/>}
+            {showUpload && <Upload guild_id={guild_id} close={() => setShowUpload(false)} refetchAudios={refetchAudios} refetchGuild={refetchGuild} />}
             <div className="flex justify-between items-center px-5 py-7 mb-5 rounded font-primary text-white bg-secondary">
               <span>Server Audios</span>
               <div className="flex items-center">
                 {isOwner && <Button dark text="Settings" onClick={() => setShowSettings(true)} className="mr-5"/>}
-                <Button text="Add New Audio" onClick={() => setShowUpload(true)}/>
+                <Button text="Add New Audio" onClick={() => setShowUpload(true)} disabled={cantUpload}/>
               </div>
             </div>
+            { cantUpload && <p>Premium Banner</p>}
             {!data.audios.length ? (
               <div className="bg-secondary bg-opacity-50 px-5 py-7 rounded flex flex-col items-center justify-center relative" style={{ minHeight: 200 }}>
                 <img src="/assets/sleep.png" className="absolute" alt="Yello Audio" style={{ width: 150, bottom: 20, left: 20 }} />
@@ -55,7 +60,8 @@ const Dashboard = ({ guild_id }: DashboardProps) => {
                     audio={audio} 
                     index={i} 
                     prefix={guildData.guild.prefix}
-                    refetchAudios={refetch}
+                    refetchAudios={refetchAudios}
+                    refetchGuild={refetchGuild}
                   />
                 ))}
               </>
