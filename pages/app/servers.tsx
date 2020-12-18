@@ -25,7 +25,7 @@ const Servers: NextPage<PageProps> = () => {
     const { data, error, loading } = useUserGuildsQuery()
 
     if(error)  return Error(error.graphQLErrors[0].extensions.code)
-    if(loading) return <Loading />
+    if(loading) return <Loading hScreen/>
 
     return (
         <div className="py-5">

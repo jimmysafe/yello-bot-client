@@ -25,7 +25,7 @@ const Dashboard = ({ guild_id }: DashboardProps) => {
     if(error) return Error(error.graphQLErrors[0].extensions.code)
 
     if(loading || guildLoading) 
-      return <Loading />
+      return <Loading hScreen/>
 
     const isOwner = guildData.guild.owner === Cookies.get("userid")
  
@@ -36,20 +36,30 @@ const Dashboard = ({ guild_id }: DashboardProps) => {
             <div className="flex justify-between items-center px-5 py-7 mb-5 rounded font-primary text-white bg-secondary">
               <span>Server Audios</span>
               <div className="flex items-center">
-                {isOwner && <Button text="Settings" onClick={() => setShowSettings(true)} className="mr-5"/>}
-                <Button text="New Audio" onClick={() => setShowUpload(true)}/>
+                {isOwner && <Button dark text="Settings" onClick={() => setShowSettings(true)} className="mr-5"/>}
+                <Button text="Add New Audio" onClick={() => setShowUpload(true)}/>
               </div>
             </div>
-            {data.audios.map((audio, i) => (
-              <Audio 
-                key={audio.id} 
-                guild_id={guild_id}
-                audio={audio} 
-                index={i} 
-                prefix={guildData.guild.prefix}
-                refetchAudios={refetch}
-              />
-            ))}
+            {!data.audios.length ? (
+              <div className="bg-secondary bg-opacity-50 px-5 py-7 rounded flex flex-col items-center justify-center relative" style={{ minHeight: 200 }}>
+                <img src="/assets/sleep.png" className="absolute" alt="Yello Audio" style={{ width: 150, bottom: 20, left: 20 }} />
+                <p className="mb-5 text-white font-primary">There are no audios yet.</p>
+                <Button text="Add New Audio" onClick={() => setShowUpload(true)} />
+              </div>
+            ) : (
+              <>
+                {data.audios.map((audio, i) => (
+                  <Audio 
+                    key={audio.id} 
+                    guild_id={guild_id}
+                    audio={audio} 
+                    index={i} 
+                    prefix={guildData.guild.prefix}
+                    refetchAudios={refetch}
+                  />
+                ))}
+              </>
+            )}
         </div>
     )
 }
