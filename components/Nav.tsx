@@ -19,10 +19,22 @@ const links = [
 const Nav: FC = () => {
     const router: NextRouter = useRouter()
     const [loggedIn, setLoggedIn] = useState<boolean>(false)
+    const [showSubMenu, setShowSubMenu] = useState<boolean>(false)
 
     useEffect(() => {
-        if(token && username && avatar && userid) setLoggedIn(true)
+        if(token && username && avatar && userid) {
+            setLoggedIn(true)
+        }
     }, [])
+
+    const logout = () => {
+        Cookies.remove('userid')
+        Cookies.remove('expiry')
+        Cookies.remove('accessToken')
+        Cookies.remove('username')
+        Cookies.remove('avatar')
+        window.location.reload()
+    }
 
     return (
         <header className="py-4">
@@ -37,11 +49,14 @@ const Nav: FC = () => {
                         return (
                             <div 
                                 key={i} 
-                                className="mx-5 cursor-pointer flex items-center" 
+                                className="mx-5 cursor-pointer flex items-center relative" 
                                 onClick={ () => link.path ? router.push(link.path) : null }
+                                onMouseEnter={() => link.avatar ? setShowSubMenu(true) : null}
+                                onMouseLeave={() => link.avatar ? setShowSubMenu(false) : null}
                             >
                                 <span className="text-white font-primary">{link.name}</span>
                                 {link.avatar &&
+                                    <>
                                     <div 
                                         className="ml-3 bg-cover bg-center bg-no-repeat rounded-full" 
                                         style={{ 
@@ -50,6 +65,16 @@ const Nav: FC = () => {
                                             width: 32
                                         }} 
                                     />
+                                    {showSubMenu &&
+                                        <div 
+                                            className="absolute left-0 w-full bg-secondary px-3 py-1 text-center text-white font-primary cursor-pointer text-sm" 
+                                            style={{ top: '100%' }}
+                                            onClick={() => logout()}
+                                        >
+                                            <p className="hover:text-primary">Logout</p>
+                                        </div>
+                                    }
+                                    </>
                                 }
                             </div>
                         )
