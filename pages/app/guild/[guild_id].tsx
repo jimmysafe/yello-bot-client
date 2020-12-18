@@ -21,8 +21,9 @@ const Dashboard = ({ guild_id }: DashboardProps) => {
     const { data: guildData, error: guildError, loading: guildLoading, refetch: refetchGuild } = useGuildQuery({ variables: { guild_id } })
     const { data, error, loading, refetch } = useGetAudiosQuery({ variables: { guild_id } })
 
-    if(error || guildError) 
-      return Error(error.graphQLErrors[0].extensions.code)
+    if(guildError) return Error(guildError.graphQLErrors[0].extensions.code)
+    if(error) return Error(error.graphQLErrors[0].extensions.code)
+
     if(loading || guildLoading) 
       return <Loading />
 
