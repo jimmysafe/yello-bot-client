@@ -1,0 +1,11 @@
+mutation editAudio($audio_name: String!, $guild_id: String!, $audio_id: String!, $new_audio_name: String!) {
+  audioFileUpdate(
+    audio_name: $audio_name,
+    guild_id: $guild_id,
+    audio_id: $audio_id,
+    new_audio_name: $new_audio_name
+  ) {
+		id
+        url
+  }
+}

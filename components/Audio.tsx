@@ -5,6 +5,7 @@ import { BsFillPlayFill as PlayIcon, BsFillPauseFill as PauseIcon } from 'react-
 import { MdDelete as DeleteIcon } from 'react-icons/md'
 import { AiTwotoneEdit as EditIcon } from 'react-icons/ai'
 import Delete from './modals/Delete'
+import Edit from './modals/Edit';
 
 type Props = {
     audio: AudioProps,
@@ -23,10 +24,12 @@ type AudioProps = {
 const Audio: FC<Props> = ({ audio, index, prefix, guild_id, refetchAudios }) => {
 
     const [isDeleting, setIsDeleting] = useState<boolean>(false)
+    const [isEditing, setIsEditing] = useState<boolean>(false)
 
     return (
         <>
         {isDeleting && <Delete audio_id={audio.id} guild_id={guild_id} audio_name={audio.name} refetchAudios={refetchAudios} close={() => setIsDeleting(false)}/>}
+        {isEditing && <Edit audio_id={audio.id} guild_id={guild_id} audio_name={audio.name} refetchAudios={refetchAudios} close={() => setIsEditing(false)}/>}
         <div className={`flex justify-between items-center px-5 py-7 font-secondary text-white bg-secondary ${index % 2 ? 'bg-opacity-100' : 'bg-opacity-50'}`}>
             <div>{prefix}{audio.name}</div>
             <div className="flex items-center">
@@ -46,7 +49,11 @@ const Audio: FC<Props> = ({ audio, index, prefix, guild_id, refetchAudios }) => 
                 className="ml-5 cursor-pointer hover:text-primary transition-all duration-200" 
                 onClick={() => setIsDeleting(true)}
             />
-            <EditIcon size={25} className="ml-2 cursor-pointer  hover:text-primary transition-all duration-200" onClick={() => console.log('edit')}/>
+            <EditIcon 
+                size={25} 
+                className="ml-2 cursor-pointer  hover:text-primary transition-all duration-200" 
+                onClick={() => setIsEditing(true)}
+            />
             </div>
         </div>
         </>

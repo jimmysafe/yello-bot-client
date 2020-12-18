@@ -165,6 +165,22 @@ export type DeleteAudioMutation = (
   ) }
 );
 
+export type EditAudioMutationVariables = Exact<{
+  audio_name: Scalars['String'];
+  guild_id: Scalars['String'];
+  audio_id: Scalars['String'];
+  new_audio_name: Scalars['String'];
+}>;
+
+
+export type EditAudioMutation = (
+  { __typename?: 'Mutation' }
+  & { audioFileUpdate: (
+    { __typename?: 'Audio' }
+    & Pick<Audio, 'id' | 'url'>
+  ) }
+);
+
 export type UpdateGuildSettingsMutationVariables = Exact<{
   guild_id: Scalars['String'];
   roles: Array<RoleInput>;
@@ -336,6 +352,47 @@ export function useDeleteAudioMutation(baseOptions?: Apollo.MutationHookOptions<
 export type DeleteAudioMutationHookResult = ReturnType<typeof useDeleteAudioMutation>;
 export type DeleteAudioMutationResult = Apollo.MutationResult<DeleteAudioMutation>;
 export type DeleteAudioMutationOptions = Apollo.BaseMutationOptions<DeleteAudioMutation, DeleteAudioMutationVariables>;
+export const EditAudioDocument = gql`
+    mutation editAudio($audio_name: String!, $guild_id: String!, $audio_id: String!, $new_audio_name: String!) {
+  audioFileUpdate(
+    audio_name: $audio_name
+    guild_id: $guild_id
+    audio_id: $audio_id
+    new_audio_name: $new_audio_name
+  ) {
+    id
+    url
+  }
+}
+    `;
+export type EditAudioMutationFn = Apollo.MutationFunction<EditAudioMutation, EditAudioMutationVariables>;
+
+/**
+ * __useEditAudioMutation__
+ *
+ * To run a mutation, you first call `useEditAudioMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditAudioMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editAudioMutation, { data, loading, error }] = useEditAudioMutation({
+ *   variables: {
+ *      audio_name: // value for 'audio_name'
+ *      guild_id: // value for 'guild_id'
+ *      audio_id: // value for 'audio_id'
+ *      new_audio_name: // value for 'new_audio_name'
+ *   },
+ * });
+ */
+export function useEditAudioMutation(baseOptions?: Apollo.MutationHookOptions<EditAudioMutation, EditAudioMutationVariables>) {
+        return Apollo.useMutation<EditAudioMutation, EditAudioMutationVariables>(EditAudioDocument, baseOptions);
+      }
+export type EditAudioMutationHookResult = ReturnType<typeof useEditAudioMutation>;
+export type EditAudioMutationResult = Apollo.MutationResult<EditAudioMutation>;
+export type EditAudioMutationOptions = Apollo.BaseMutationOptions<EditAudioMutation, EditAudioMutationVariables>;
 export const UpdateGuildSettingsDocument = gql`
     mutation updateGuildSettings($guild_id: String!, $roles: [RoleInput!]!, $prefix: String!) {
   guildSettingsUpdate(guild_id: $guild_id, roles: $roles, prefix: $prefix) {
