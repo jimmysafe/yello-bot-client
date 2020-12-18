@@ -4,11 +4,11 @@ import { useGetAudiosQuery, useGuildQuery } from '../../../graphql/generated'
 import Audio from '../../../components/Audio'
 import Error from '../../../errors'
 import Button from '../../../components/Button'
-import Upload from '../../../components/Upload'
+import Upload from '../../../components/modals/Upload'
 import { authorized } from '../../../utils'
 import Loading from '../../../components/Loading'
 import Cookies from 'js-cookie'
-import Settings from '../../../components/Settings'
+import Settings from '../../../components/modals/Settings'
 
 type DashboardProps = {
     guild_id: string,
@@ -17,7 +17,6 @@ type DashboardProps = {
 const Dashboard = ({ guild_id }: DashboardProps) => {
     const [showUpload, setShowUpload] = useState<boolean>(false)
     const [showSettings, setShowSettings] = useState<boolean>(false)
-
 
     const { data: guildData, error: guildError, loading: guildLoading, refetch: refetchGuild } = useGuildQuery({ variables: { guild_id } })
     const { data, error, loading, refetch } = useGetAudiosQuery({ variables: { guild_id } })
@@ -40,7 +39,16 @@ const Dashboard = ({ guild_id }: DashboardProps) => {
                 <Button text="New Audio" onClick={() => setShowUpload(true)}/>
               </div>
             </div>
-            {data.audios.map((audio, i) => <Audio key={audio.id} audio={audio} index={i} prefix={guildData.guild.prefix}/>)}
+            {data.audios.map((audio, i) => (
+              <Audio 
+                key={audio.id} 
+                guild_id={guild_id}
+                audio={audio} 
+                index={i} 
+                prefix={guildData.guild.prefix}
+                refetchAudios={refetch}
+              />
+            ))}
         </div>
     )
 }

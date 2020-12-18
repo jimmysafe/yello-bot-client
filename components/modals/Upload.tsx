@@ -1,10 +1,10 @@
 import { FC, useState } from 'react'
-import VideoEditor from './VideoEditor'
-import Button from './Button'
-import ButtonLoading from './ButtonLoading'
+import VideoEditor from '../VideoEditor'
+import Button from '../Button'
+import ButtonLoading from '../ButtonLoading'
 import { IoIosClose as ClearIcon } from 'react-icons/io'
-import { useAddAudioMutation } from '../graphql/generated'
-import { YouTubeGetID } from '../utils';
+import { useAddAudioMutation } from '../../graphql/generated'
+import { YouTubeGetID } from '../../utils';
 
 type TimeValues = {
     values: number[]

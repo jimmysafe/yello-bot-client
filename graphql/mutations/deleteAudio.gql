@@ -1,0 +1,10 @@
+mutation deleteAudio($audio_name: String!, $guild_id: String!, $audio_id: String!) {
+  audioFileDelete(
+    audio_name: $audio_name,
+    guild_id: $guild_id,
+    audio_id: $audio_id,
+  ) {
+		id
+        url
+  }
+}

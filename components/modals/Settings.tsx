@@ -1,9 +1,9 @@
 import { FC, useRef, useState, SyntheticEvent } from "react"
 import Select, { OptionsType } from 'react-select'
-import { useGuildRolesQuery, useUpdateGuildSettingsMutation, RoleType } from '../graphql/generated'
-import Button from "./Button"
-import ButtonLoading from './ButtonLoading'
-import Loading from "./Loading"
+import { useGuildRolesQuery, useUpdateGuildSettingsMutation, RoleType } from '../../graphql/generated'
+import Button from "../Button"
+import ButtonLoading from '../ButtonLoading'
+import Loading from "../Loading"
 
 type Roles = {
     id: string,
