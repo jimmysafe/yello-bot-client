@@ -9,6 +9,7 @@ import { authorized } from '../../../utils'
 import Loading from '../../../components/Loading'
 import Cookies from 'js-cookie'
 import Settings from '../../../components/modals/Settings'
+import PremiumBanner from '../../../components/PremiumBanner'
 
 type DashboardProps = {
     guild_id: string,
@@ -44,7 +45,7 @@ const Dashboard = ({ guild_id }: DashboardProps) => {
                 <Button text="Add New Audio" onClick={() => setShowUpload(true)} disabled={cantUpload}/>
               </div>
             </div>
-            { cantUpload && <p>Premium Banner</p>}
+            { cantUpload && <PremiumBanner guild_id={guild_id}/>}
             {!data.audios.length ? (
               <div className="bg-secondary bg-opacity-50 px-5 py-7 rounded flex flex-col items-center justify-center relative" style={{ minHeight: 200 }}>
                 <img src="/assets/sleep.png" className="absolute" alt="Yello Audio" style={{ width: 150, bottom: 20, left: 20 }} />

@@ -7,7 +7,7 @@ type ButtonProps = {
     className?: string
 }
 
-const Button: FC<ButtonProps> = ({ loader, onClick=() => null, disabled, className }) => {
+const ButtonLoading: FC<ButtonProps> = ({ loader, onClick=() => null, disabled, className }) => {
     return (
         <button className={`flex justify-center items-center px-8 py-3 rounded bg-primary cursor-pointer ${disabled && 'opacity-50 cursor-not-allowed'} ${className}`} onClick={onClick} disabled={disabled}>
             <img src={loader} alt="Loading"/>
@@ -15,4 +15,4 @@ const Button: FC<ButtonProps> = ({ loader, onClick=() => null, disabled, classNa
     )
 }
 
-export default Button
+export default ButtonLoading
