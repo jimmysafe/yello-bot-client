@@ -81,7 +81,7 @@ const Nav: FC = () => {
                     })}
 
 
-                    {!loggedIn && <Button onClick={() => openDiscordLoginPopup()} text="Login"/>}
+                    {!loggedIn && <Button blue onClick={() => openDiscordLoginPopup()} text="Login"/>}
                     
                 </div>
             </nav>

@@ -43,6 +43,7 @@ export type Guild = {
   id: Scalars['ID'];
   guild_id: Scalars['String'];
   guild_name: Scalars['String'];
+  guild_icon?: Maybe<Scalars['String']>;
   type: Scalars['String'];
   prefix: Scalars['String'];
   roles: Array<RoleType>;
@@ -126,6 +127,9 @@ export type MutationAudioFileUpdateArgs = {
 
 
 export type MutationStripeCheckoutCreateArgs = {
+  guild_name: Scalars['String'];
+  guild_id: Scalars['String'];
+  name: Scalars['String'];
   email: Scalars['String'];
 };
 
@@ -197,6 +201,9 @@ export type GuildUpgradeMutation = (
 
 export type StripeCheckoutCreateMutationVariables = Exact<{
   email: Scalars['String'];
+  name: Scalars['String'];
+  guild_id: Scalars['String'];
+  guild_name: Scalars['String'];
 }>;
 
 
@@ -246,7 +253,7 @@ export type GuildQuery = (
   { __typename?: 'Query' }
   & { guild: (
     { __typename?: 'Guild' }
-    & Pick<Guild, 'guild_id' | 'type' | 'prefix' | 'owner'>
+    & Pick<Guild, 'id' | 'guild_id' | 'type' | 'prefix' | 'guild_name' | 'guild_icon' | 'owner'>
     & { roles: Array<(
       { __typename?: 'RoleType' }
       & Pick<RoleType, 'id' | 'name'>
@@ -454,8 +461,13 @@ export type GuildUpgradeMutationHookResult = ReturnType<typeof useGuildUpgradeMu
 export type GuildUpgradeMutationResult = Apollo.MutationResult<GuildUpgradeMutation>;
 export type GuildUpgradeMutationOptions = Apollo.BaseMutationOptions<GuildUpgradeMutation, GuildUpgradeMutationVariables>;
 export const StripeCheckoutCreateDocument = gql`
-    mutation stripeCheckoutCreate($email: String!) {
-  stripeCheckoutCreate(email: $email)
+    mutation stripeCheckoutCreate($email: String!, $name: String!, $guild_id: String!, $guild_name: String!) {
+  stripeCheckoutCreate(
+    email: $email
+    name: $name
+    guild_id: $guild_id
+    guild_name: $guild_name
+  )
 }
     `;
 export type StripeCheckoutCreateMutationFn = Apollo.MutationFunction<StripeCheckoutCreateMutation, StripeCheckoutCreateMutationVariables>;
@@ -474,6 +486,9 @@ export type StripeCheckoutCreateMutationFn = Apollo.MutationFunction<StripeCheck
  * const [stripeCheckoutCreateMutation, { data, loading, error }] = useStripeCheckoutCreateMutation({
  *   variables: {
  *      email: // value for 'email'
+ *      name: // value for 'name'
+ *      guild_id: // value for 'guild_id'
+ *      guild_name: // value for 'guild_name'
  *   },
  * });
  */
@@ -560,9 +575,12 @@ export type GetAudiosQueryResult = Apollo.QueryResult<GetAudiosQuery, GetAudiosQ
 export const GuildDocument = gql`
     query guild($guild_id: String!) {
   guild(guild_id: $guild_id) {
+    id
     guild_id
     type
     prefix
+    guild_name
+    guild_icon
     roles {
       id
       name

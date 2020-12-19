@@ -6,11 +6,12 @@ import Plan from '../checkout/Plan'
 
 type Props = {
     close: () => void,
-    guild: Guild
+    guild_id: string,
+    guild_name: string
 }
 
 
-const Premium: FC<Props> = ({ close, guild }) => {
+const Premium: FC<Props> = ({ close, guild_id, guild_name }) => {
 
     const [page, setPage] = useState<number>(1)
 
@@ -21,7 +22,7 @@ const Premium: FC<Props> = ({ close, guild }) => {
                     <Close className="text-white" size={20}/>
                 </div>
                 {page === 1 && <Plan setPage={setPage}/>}
-                {page === 2 && <Checkout close={close} guild={guild}/>}
+                {page === 2 && <Checkout close={close} guild_id={guild_id} guild_name={guild_name} />}
             </div>
         </div>
     )

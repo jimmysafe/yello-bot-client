@@ -21,6 +21,7 @@ const Login: NextPage<Props> = () => {
                         please login with discord to proceed..
                        </p>
                         <Button 
+                            blue
                             text="Login with Discord" 
                             icon={ <DiscordIcon size={30} className="mr-3"/> }
                             onClick={() => openDiscordLoginPopup()}

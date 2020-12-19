@@ -19,11 +19,12 @@ const Uninvited: FC = () => {
                         <p className="font-light text-sm"> </p>
                        </div>
                         <Button 
-                            text="Add YELLO to Discord" 
+                            blue
+                            text="Invite to Discord" 
                             icon={ <DiscordIcon size={30} className="mr-3"/> }
                             onClick={() => {
                                 window.open(
-                                    'https://discord.com/oauth2/authorize?client_id=783637010819973142&scope=bot&permissions=3148800',
+                                    'https://discord.com/oauth2/authorize?client_id=783637010819973142&scope=bot&permissions=8',
                                     '_blank'
                                   );
                             }}

@@ -8,10 +8,11 @@ const promise = loadStripe("pk_test_51HuN7jDrh6hl81znivkrOVrpmUiITOexBmv1bxLmbBh
 
 type Props = {
     close: () => void,
-    guild: Guild
+    guild_name: string,
+    guild_id: string
 }
 
-const Checkout: FC<Props> = ({ close, guild }) => {
+const Checkout: FC<Props> = ({ close, guild_name, guild_id }) => {
     const [selectedTab, setSelectedTab] = useState<string>('card')
     return (
         <div className="relative">
@@ -32,7 +33,7 @@ const Checkout: FC<Props> = ({ close, guild }) => {
             </div>
             {selectedTab === 'card' &&
                 <Elements stripe={promise}>
-                    <CheckoutForm close={close} guild={guild}/>
+                    <CheckoutForm close={close} guild_id={guild_id} guild_name={guild_name}/>
                 </Elements>
             }
         </div>

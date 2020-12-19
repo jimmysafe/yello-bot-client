@@ -55,7 +55,7 @@ const Edit: FC<Props> = ({ audio_name, audio_id, guild_id, refetchAudios, refetc
 
     return (
         <div className="fixed top-0 left-0 bg-black bg-opacity-50 w-full h-screen flex justify-center items-center z-10">
-            <form className="flex flex-col justify-center items-center bg-bgColor py-5 px-12 rounded" style={{ width: 500 }} onSubmit={handleEdit}>
+            <form className="flex flex-col justify-center items-center bg-bgColor py-5 px-12 rounded border border-primary" style={{ width: 500 }} onSubmit={handleEdit}>
                 <p className="text-white mb-8 mt-5">Change command/audio name</p>
                 <input 
                     ref={inputRef} 
@@ -67,7 +67,7 @@ const Edit: FC<Props> = ({ audio_name, audio_id, guild_id, refetchAudios, refetc
                 {loading ?
                     <ButtonLoading loader="/assets/loader.svg" disabled={true} />
                     :
-                    <Button text="Confirm"/>
+                    <Button blue text="Confirm"/>
                 }
                 <div className="mt-5 text-white cursor-pointer" onClick={close}>
                     <span>Cancel</span>

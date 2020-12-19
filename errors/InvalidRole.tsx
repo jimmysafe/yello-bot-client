@@ -16,6 +16,7 @@ const InvalidRole: FC = () => {
                         <p className="font-light text-sm">Ask your Discord Server owner for permissions to view this page</p>
                        </div>
                         <Button 
+                            blue
                             text="Reload" 
                             onClick={() => window.location.reload()}
                         />

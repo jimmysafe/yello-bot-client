@@ -9,10 +9,12 @@ type Props = {
     email: string,
     cardElement: StripeCardNumberElement,
     setSucceeded: Dispatch<SetStateAction<boolean>>,
-    guild: Guild
+    guild_name: string
+    guild_id: string,
+    name: string
 }
 
-const Confirm: FC<Props> = ({ email, cardElement, setSucceeded, guild }) => {
+const Confirm: FC<Props> = ({ email, cardElement, setSucceeded, guild_name, guild_id, name }) => {
     
     const stripe: Stripe = useStripe();
 
@@ -25,7 +27,12 @@ const Confirm: FC<Props> = ({ email, cardElement, setSucceeded, guild }) => {
     const pay = async() => {
         setProcessing(true);
         try {
-            const { data } = await createIntent({ variables: { email } })
+            const { data } = await createIntent({ variables: { 
+                email,
+                guild_id,
+                guild_name,
+                name
+            } })
             const clientSecret = data.stripeCheckoutCreate
     
             if(clientSecret){
@@ -39,7 +46,7 @@ const Confirm: FC<Props> = ({ email, cardElement, setSucceeded, guild }) => {
                   setProcessing(false);
                 } else {
                   setError('');
-                  await upgradeGuild({ variables: { guild_id: guild.guild_id } })
+                  await upgradeGuild({ variables: { guild_id } })
                   setProcessing(false);
                   setSucceeded(true);
                 }
@@ -74,7 +81,7 @@ const Confirm: FC<Props> = ({ email, cardElement, setSucceeded, guild }) => {
                     <div className="w-1 h-full mr-3 rounded bg-primary" />
                     <div className="flex flex-col items-start">
                         <span className="text-textGrey font-medium opacity-50">Server</span>
-                        <span className="text-white font-medium">{guild.guild_id}</span>
+                        <span className="text-white font-medium">{guild_name}</span>
                     </div>
                 </div>
             </div>

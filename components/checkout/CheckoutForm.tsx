@@ -9,13 +9,15 @@ import { Guild } from '../../graphql/generated';
 
 type Props = {
   close: () => void,
-  guild: Guild
+  guild_id: string,
+  guild_name: string
 }
 
-const CheckoutForm: FC<Props> = ({ close, guild }) => {
+const CheckoutForm: FC<Props> = ({ close, guild_id, guild_name }) => {
 
-    const emailRef = useRef<HTMLInputElement>(null)
-    const nameRef = useRef<HTMLInputElement>(null)
+    const firstName = useRef<HTMLInputElement>(null)
+    const lastName = useRef<HTMLInputElement>(null)
+    const email = useRef<HTMLInputElement>(null)
 
     const [error, setError] = useState<string>('');
     const [disabled, setDisabled] = useState<boolean>(true);
@@ -48,17 +50,20 @@ const CheckoutForm: FC<Props> = ({ close, guild }) => {
     return (
       <>
         {succeeded && <Success close={close}/>}
-        {cardElement && <Confirm cardElement={cardElement} email={emailRef.current.value} setSucceeded={setSucceeded} guild={guild}/>}
+        {cardElement && <Confirm cardElement={cardElement} email={email.current.value} setSucceeded={setSucceeded} guild_id={guild_id} guild_name={guild_name} name={`${firstName.current.value} ${lastName.current.value}`}/>}
         <form onSubmit={handleSubmit} className="text-sm">
 
           <div className="w-full flex">
             <input 
-                ref={nameRef}
+                ref={firstName}
+                required
                 type="text"
                 className="bg-white w-1/2 px-5 py-3 mb-2 rounded-sm text-secondary font-secondary focus:outline-none placeholder-textGrey mr-1" 
                 placeholder="First Name"
             />
             <input 
+                ref={lastName}
+                required
                 type="text"
                 className="bg-white w-1/2 px-5 py-3 mb-2 rounded-sm text-secondary font-secondary focus:outline-none placeholder-textGrey ml-1" 
                 placeholder="Last Name"
@@ -66,7 +71,8 @@ const CheckoutForm: FC<Props> = ({ close, guild }) => {
           </div>
           <div className="w-full">
             <input 
-                ref={emailRef}
+                ref={email}
+                required
                 type="email"
                 className="bg-white w-full px-5 py-3 mb-2 rounded-sm text-secondary font-secondary focus:outline-none placeholder-textGrey" 
                 placeholder="Your Email Address"

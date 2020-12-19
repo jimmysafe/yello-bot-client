@@ -30,12 +30,12 @@ const Delete: FC<Props> = ({ audio_name, audio_id, guild_id, refetchAudios, refe
 
     return (
         <div className="fixed top-0 left-0 bg-black bg-opacity-50 w-full h-screen flex justify-center items-center z-10">
-            <div className="flex flex-col justify-center items-center bg-bgColor py-5 px-12 rounded">
+            <div className="flex flex-col justify-center items-center bg-bgColor py-5 px-12 rounded border border-primary">
                 <p className="text-white mb-8 mt-5">Do you really want to delete this file?</p>
                 {loading ?
                     <ButtonLoading loader="/assets/loader.svg" disabled={true} />
                     :
-                    <Button text="Confirm" onClick={() => handleDelete()}/>
+                    <Button blue text="Confirm" onClick={() => handleDelete()}/>
                 }
                 <div className="mt-5 text-white cursor-pointer" onClick={close}>
                     <span>Cancel</span>

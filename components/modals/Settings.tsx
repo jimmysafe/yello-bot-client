@@ -81,7 +81,7 @@ const Settings: FC<Props> = ({ prefix, roles, guild_id, close, refetchGuild }) =
 
     return (
         <div className="fixed top-0 left-0 bg-black bg-opacity-50 w-full h-screen flex justify-center items-center z-10">
-            <form className="flex relative flex-col justify-center items-center bg-bgColor py-5 px-12 rounded" onSubmit={handleSubmit} style={{ minWidth: 350,maxWidth: 500, minHeight: 350 }}>
+            <form className="flex relative flex-col justify-center items-center bg-bgColor py-5 px-12 rounded border border-primary" onSubmit={handleSubmit} style={{ minWidth: 350,maxWidth: 500, minHeight: 350 }}>
                 {loading ? <Loading />
                 : ( 
                     <>
@@ -119,7 +119,7 @@ const Settings: FC<Props> = ({ prefix, roles, guild_id, close, refetchGuild }) =
                         {updateLoading ?
                             <ButtonLoading loader="/assets/loader.svg" disabled={true} className="w-full mt-7" />
                             :    
-                            <Button text="Save Settings" className="w-full mt-12"/>
+                            <Button blue text="Save Settings" className="w-full mt-12"/>
                         }
                         <div className="mt-3 cursor-pointer" onClick={close}>
                     <span className="text-white">Cancel</span>

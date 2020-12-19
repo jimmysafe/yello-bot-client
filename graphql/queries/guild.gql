@@ -1,8 +1,11 @@
 query guild($guild_id: String!) {
   guild(guild_id: $guild_id){
+    id
     guild_id
     type
     prefix
+    guild_name
+    guild_icon
     roles{
       id
       name

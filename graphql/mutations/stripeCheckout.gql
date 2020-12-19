@@ -1,3 +1,3 @@
-mutation stripeCheckoutCreate($email: String!) {
-  stripeCheckoutCreate(email: $email)
+mutation stripeCheckoutCreate($email: String!, $name: String!, $guild_id: String!, $guild_name: String! ) {
+  stripeCheckoutCreate(email: $email, name: $name, guild_id: $guild_id, guild_name: $guild_name)
 }
