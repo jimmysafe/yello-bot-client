@@ -7,7 +7,7 @@ type Props = {
 
 const Success: FC<Props> = ({ close }) => {
     return (
-        <div className="absolute top-0 left-0 w-full h-full bg-secondary z-20 font-secondary flex flex-col justify-center items-center px-10">
+        <div className="absolute top-0 left-0 w-full h-full bg-secondary font-secondary flex flex-col justify-center items-center px-10" style={{ zIndex: 1000 }}>
             <img src="/assets/success.png" className="w-28 mx-auto mb-8" alt="Yello Logo"/>
             <h1 className="text-5xl text-primary font-medium text-center">THANKS!</h1>
             <div className="text-white text-sm my-8 text-center">

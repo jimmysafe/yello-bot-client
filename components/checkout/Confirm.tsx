@@ -1,5 +1,5 @@
 import { FC, useState, Dispatch, SetStateAction } from 'react'
-import { useStripeCheckoutCreateMutation, useGuildUpgradeMutation, Guild } from '../../graphql/generated'
+import { useStripeCheckoutCreateMutation, useGuildUpgradeMutation } from '../../graphql/generated'
 import { useStripe } from "@stripe/react-stripe-js";
 import { Stripe, StripeCardNumberElement } from '@stripe/stripe-js';
 import Button from '../Button'

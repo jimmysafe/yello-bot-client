@@ -2,9 +2,9 @@ import { FC, useState } from "react"
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
-import { Guild } from "../../graphql/generated";
+import Paypal from "../Paypal";
 
-const promise = loadStripe("pk_test_51HuN7jDrh6hl81znivkrOVrpmUiITOexBmv1bxLmbBhaxRR1hJSxZSaRIg4LkBHa6b29Tu4pihH7JDImJ9bEtHJb00h95FG0uR");
+const promise = loadStripe(process.env.STRIPE_PUBLIC_KEY);
 
 type Props = {
     close: () => void,
@@ -35,6 +35,11 @@ const Checkout: FC<Props> = ({ close, guild_name, guild_id }) => {
                 <Elements stripe={promise}>
                     <CheckoutForm close={close} guild_id={guild_id} guild_name={guild_name}/>
                 </Elements>
+            }
+            {selectedTab === 'paypal' &&
+                <div className="px-5" style={{ minWidth: 400, minHeight: 300 }}>
+                    <Paypal close={close} guild_id={guild_id}/>
+                </div>
             }
         </div>
     )
