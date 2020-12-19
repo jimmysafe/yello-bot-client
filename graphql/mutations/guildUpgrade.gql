@@ -1,0 +1,6 @@
+mutation guildUpgrade($guild_id: String!) {
+  guildUpgrade(guild_id: $guild_id){
+      guild_id
+      type
+  }
+}

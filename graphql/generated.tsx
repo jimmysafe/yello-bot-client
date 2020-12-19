@@ -42,6 +42,7 @@ export type Guild = {
   __typename?: 'Guild';
   id: Scalars['ID'];
   guild_id: Scalars['String'];
+  guild_name: Scalars['String'];
   type: Scalars['String'];
   prefix: Scalars['String'];
   roles: Array<RoleType>;
@@ -179,6 +180,29 @@ export type EditAudioMutation = (
     { __typename?: 'Audio' }
     & Pick<Audio, 'id' | 'url'>
   ) }
+);
+
+export type GuildUpgradeMutationVariables = Exact<{
+  guild_id: Scalars['String'];
+}>;
+
+
+export type GuildUpgradeMutation = (
+  { __typename?: 'Mutation' }
+  & { guildUpgrade: (
+    { __typename?: 'Guild' }
+    & Pick<Guild, 'guild_id' | 'type'>
+  ) }
+);
+
+export type StripeCheckoutCreateMutationVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type StripeCheckoutCreateMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'stripeCheckoutCreate'>
 );
 
 export type UpdateGuildSettingsMutationVariables = Exact<{
@@ -396,6 +420,69 @@ export function useEditAudioMutation(baseOptions?: Apollo.MutationHookOptions<Ed
 export type EditAudioMutationHookResult = ReturnType<typeof useEditAudioMutation>;
 export type EditAudioMutationResult = Apollo.MutationResult<EditAudioMutation>;
 export type EditAudioMutationOptions = Apollo.BaseMutationOptions<EditAudioMutation, EditAudioMutationVariables>;
+export const GuildUpgradeDocument = gql`
+    mutation guildUpgrade($guild_id: String!) {
+  guildUpgrade(guild_id: $guild_id) {
+    guild_id
+    type
+  }
+}
+    `;
+export type GuildUpgradeMutationFn = Apollo.MutationFunction<GuildUpgradeMutation, GuildUpgradeMutationVariables>;
+
+/**
+ * __useGuildUpgradeMutation__
+ *
+ * To run a mutation, you first call `useGuildUpgradeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGuildUpgradeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [guildUpgradeMutation, { data, loading, error }] = useGuildUpgradeMutation({
+ *   variables: {
+ *      guild_id: // value for 'guild_id'
+ *   },
+ * });
+ */
+export function useGuildUpgradeMutation(baseOptions?: Apollo.MutationHookOptions<GuildUpgradeMutation, GuildUpgradeMutationVariables>) {
+        return Apollo.useMutation<GuildUpgradeMutation, GuildUpgradeMutationVariables>(GuildUpgradeDocument, baseOptions);
+      }
+export type GuildUpgradeMutationHookResult = ReturnType<typeof useGuildUpgradeMutation>;
+export type GuildUpgradeMutationResult = Apollo.MutationResult<GuildUpgradeMutation>;
+export type GuildUpgradeMutationOptions = Apollo.BaseMutationOptions<GuildUpgradeMutation, GuildUpgradeMutationVariables>;
+export const StripeCheckoutCreateDocument = gql`
+    mutation stripeCheckoutCreate($email: String!) {
+  stripeCheckoutCreate(email: $email)
+}
+    `;
+export type StripeCheckoutCreateMutationFn = Apollo.MutationFunction<StripeCheckoutCreateMutation, StripeCheckoutCreateMutationVariables>;
+
+/**
+ * __useStripeCheckoutCreateMutation__
+ *
+ * To run a mutation, you first call `useStripeCheckoutCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useStripeCheckoutCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [stripeCheckoutCreateMutation, { data, loading, error }] = useStripeCheckoutCreateMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useStripeCheckoutCreateMutation(baseOptions?: Apollo.MutationHookOptions<StripeCheckoutCreateMutation, StripeCheckoutCreateMutationVariables>) {
+        return Apollo.useMutation<StripeCheckoutCreateMutation, StripeCheckoutCreateMutationVariables>(StripeCheckoutCreateDocument, baseOptions);
+      }
+export type StripeCheckoutCreateMutationHookResult = ReturnType<typeof useStripeCheckoutCreateMutation>;
+export type StripeCheckoutCreateMutationResult = Apollo.MutationResult<StripeCheckoutCreateMutation>;
+export type StripeCheckoutCreateMutationOptions = Apollo.BaseMutationOptions<StripeCheckoutCreateMutation, StripeCheckoutCreateMutationVariables>;
 export const UpdateGuildSettingsDocument = gql`
     mutation updateGuildSettings($guild_id: String!, $roles: [RoleInput!]!, $prefix: String!) {
   guildSettingsUpdate(guild_id: $guild_id, roles: $roles, prefix: $prefix) {

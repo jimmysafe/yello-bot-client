@@ -1,16 +1,17 @@
-import { FC } from "react"
+import { FC, Dispatch, SetStateAction } from "react"
 import Button from "./Button"
 
 type Props = {
-    guild_id: string
+    setShowPremium: Dispatch<SetStateAction<boolean>>
 }
 
-const PremiumBanner: FC<Props> = ({ guild_id }) => {
+const PremiumBanner: FC<Props> = ({ setShowPremium }) => {
+
     return (
         <div className=" text-white font-secondary flex flex-col justify-center items-center bg-secondary border border-primary rounded px-5 py-7 mb-5">
             <p>You have reached the maximum number of audios.</p>
             <p className="font-medium">Upgrade to Premium to get <b className="text-primary">unlimited uploads!</b></p>
-            <Button text="Go Premium" className="mt-4"/>
+            <Button blue text="Go Premium" className="mt-4" onClick={() =>setShowPremium(true)}/>
         </div>
     )
 }
