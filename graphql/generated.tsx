@@ -15,6 +15,7 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
+  user: UserType;
   guilds: Array<Guild>;
   guild: Guild;
   userGuilds: Array<GuildType>;
@@ -35,6 +36,29 @@ export type QueryGuildRolesArgs = {
 
 export type QueryAudiosArgs = {
   guild_id: Scalars['String'];
+};
+
+/** The User model */
+export type UserType = {
+  __typename?: 'UserType';
+  id: Scalars['String'];
+  username: Scalars['String'];
+  avatar?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
+  accessToken: Scalars['String'];
+  guilds: Array<GuildType>;
+};
+
+/** The User Guild model */
+export type GuildType = {
+  __typename?: 'GuildType';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  icon?: Maybe<Scalars['String']>;
+  owner: Scalars['Boolean'];
+  permissions: Scalars['Float'];
+  features: Array<Scalars['String']>;
+  permissions_new: Scalars['String'];
 };
 
 /** The Channel model */
@@ -67,20 +91,9 @@ export type Audio = {
   guild: Scalars['String'];
 };
 
-/** The User Guild model */
-export type GuildType = {
-  __typename?: 'GuildType';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  icon?: Maybe<Scalars['String']>;
-  owner: Scalars['Boolean'];
-  permissions: Scalars['Float'];
-  features: Array<Scalars['String']>;
-  permissions_new: Scalars['String'];
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
+  userLogout: Scalars['String'];
   guildUpgrade: Guild;
   guildSettingsUpdate: Guild;
   audioFileAdd: Audio;
@@ -231,6 +244,14 @@ export type UpdateGuildSettingsMutation = (
   ) }
 );
 
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'userLogout'>
+);
+
 export type GetAudiosQueryVariables = Exact<{
   guild_id: Scalars['String'];
 }>;
@@ -290,6 +311,21 @@ export type GuildsQuery = (
       & Pick<Audio, 'name' | 'url'>
     )> }
   )> }
+);
+
+export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUserQuery = (
+  { __typename?: 'Query' }
+  & { user: (
+    { __typename?: 'UserType' }
+    & Pick<UserType, 'id' | 'username' | 'avatar' | 'email' | 'accessToken'>
+    & { guilds: Array<(
+      { __typename?: 'GuildType' }
+      & Pick<GuildType, 'id' | 'name' | 'icon' | 'owner' | 'permissions' | 'features' | 'permissions_new'>
+    )> }
+  ) }
 );
 
 export type UserGuildsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -537,6 +573,35 @@ export function useUpdateGuildSettingsMutation(baseOptions?: Apollo.MutationHook
 export type UpdateGuildSettingsMutationHookResult = ReturnType<typeof useUpdateGuildSettingsMutation>;
 export type UpdateGuildSettingsMutationResult = Apollo.MutationResult<UpdateGuildSettingsMutation>;
 export type UpdateGuildSettingsMutationOptions = Apollo.BaseMutationOptions<UpdateGuildSettingsMutation, UpdateGuildSettingsMutationVariables>;
+export const LogoutDocument = gql`
+    mutation logout {
+  userLogout
+}
+    `;
+export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, baseOptions);
+      }
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
+export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const GetAudiosDocument = gql`
     query getAudios($guild_id: String!) {
   audios(guild_id: $guild_id) {
@@ -690,6 +755,51 @@ export function useGuildsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Gui
 export type GuildsQueryHookResult = ReturnType<typeof useGuildsQuery>;
 export type GuildsLazyQueryHookResult = ReturnType<typeof useGuildsLazyQuery>;
 export type GuildsQueryResult = Apollo.QueryResult<GuildsQuery, GuildsQueryVariables>;
+export const GetUserDocument = gql`
+    query getUser {
+  user {
+    id
+    username
+    avatar
+    email
+    accessToken
+    guilds {
+      id
+      name
+      icon
+      owner
+      permissions
+      features
+      permissions_new
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUserQuery__
+ *
+ * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUserQuery(baseOptions?: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+        return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, baseOptions);
+      }
+export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+          return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, baseOptions);
+        }
+export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
+export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
+export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
 export const UserGuildsDocument = gql`
     query userGuilds {
   userGuilds {

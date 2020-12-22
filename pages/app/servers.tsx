@@ -1,30 +1,21 @@
 import { useUserGuildsQuery } from '../../graphql/generated'
-import { authorized } from '../../utils'
-import { GetServerSideProps, NextPage  } from 'next'
+import { NextPage  } from 'next'
 import { NextRouter, useRouter } from 'next/router'
 import { FiArrowRight as Arrow } from "react-icons/fi";
 import Error from '../../errors'
 import Loading from '../../components/Loading';
 
-type Cookies = {
-    userid: string,
-    expiry: string,
-    accessToken: string,
-    avatar: string | null,
-    username: string
-}
 
-type PageProps = {
-    cookies: Cookies
-}
-
-const Servers: NextPage<PageProps> = () => {
+const Servers: NextPage = () => {
 
     const router: NextRouter = useRouter()
 
     const { data, error, loading } = useUserGuildsQuery()
 
-    if(error)  return Error(error.graphQLErrors[0].extensions.code)
+    if(error)  {
+        console.log(error)
+        return Error(error.graphQLErrors[0].extensions.code)
+    }
     if(loading) return <Loading hScreen/>
 
     return (
@@ -53,9 +44,5 @@ const Servers: NextPage<PageProps> = () => {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async(ctx) => {
-    authorized(ctx)
-    return { props: {} }    
-}
 
 export default Servers

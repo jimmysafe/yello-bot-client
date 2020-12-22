@@ -1,5 +1,4 @@
 import { NextRouter, useRouter } from "next/router"
-import Cookies from 'js-cookie'
 import InvalidRole from "./InvalidRole"
 import Uninvited from "./Uninvited"
 
@@ -11,11 +10,6 @@ const Error = (errorCode : string) => {
     const router: NextRouter = useRouter()
     switch(errorCode){
         case UNAUTHENTICATED:
-            Cookies.remove('userid')
-            Cookies.remove('expiry')
-            Cookies.remove('accessToken')
-            Cookies.remove('username')
-            Cookies.remove('avatar')
             router.push('/auth/login')
         case UNINVITED:
             return <Uninvited />

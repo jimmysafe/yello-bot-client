@@ -1,40 +1,39 @@
 import { useState } from 'react'
-import { GetServerSideProps } from 'next'
-import { useGetAudiosQuery, useGuildQuery } from '../../../graphql/generated'
+import { useGetAudiosQuery, useGuildQuery, useGetUserQuery } from '../../../graphql/generated'
 import Audio from '../../../components/Audio'
 import Error from '../../../errors'
 import Button from '../../../components/Button'
 import Upload from '../../../components/modals/Upload'
-import { authorized } from '../../../utils'
 import Loading from '../../../components/Loading'
-import Cookies from 'js-cookie'
 import Settings from '../../../components/modals/Settings'
 import PremiumBanner from '../../../components/PremiumBanner'
 import Premium from '../../../components/modals/Premium'
+import { NextPage, GetServerSideProps } from 'next'
 
 type DashboardProps = {
     guild_id: string,
 }
 
-const Dashboard = ({ guild_id }: DashboardProps) => {
+const Dashboard: NextPage<DashboardProps> = ({ guild_id }) => {
     const [showUpload, setShowUpload] = useState<boolean>(false)
     const [showSettings, setShowSettings] = useState<boolean>(false)
     const [showPremium, setShowPremium] = useState<boolean>(false)
 
+    const { data: userData, loading: userLoading } = useGetUserQuery()
     const { data: guildData, error: guildError, loading: guildLoading, refetch: refetchGuild } = useGuildQuery({ variables: { guild_id } })
     const { data, error, loading, refetch: refetchAudios } = useGetAudiosQuery({ variables: { guild_id } })
 
     if(guildError) return Error(guildError.graphQLErrors[0].extensions.code)
     if(error) return Error(error.graphQLErrors[0].extensions.code)
 
-    if(loading || guildLoading) 
+    if(loading || guildLoading || userLoading) 
       return <Loading hScreen/>
 
-    const isOwner = guildData.guild.owner === Cookies.get("userid")
+    const guild = userData.user.guilds.find(guild => guild.id === guild_id)
+    
+    const isOwner = guild.owner
  
     const cantUpload = guildData.guild.files.length >= 10 && guildData.guild.type === "BASIC"
-
-    console.log(guildData)
 
     return (
         <div className="py-5 max-w-card mx-auto">
@@ -46,13 +45,13 @@ const Dashboard = ({ guild_id }: DashboardProps) => {
             }}/>}
             <div className="flex justify-between items-center px-5 py-7 mb-5 rounded font-primary text-white bg-secondary">
               <div className="flex items-center">
-                {guildData.guild.guild_icon ? 
-                    <div className="h-icon w-icon bg-cover bg-center bg-no-repeat rounded-full" style={{ backgroundImage: `url(https://cdn.discordapp.com/icons/${guildData.guild.guild_id}/${guildData.guild.guild_icon}.png?size=64)` }} />
+                {guild.icon ? 
+                    <div className="h-icon w-icon bg-cover bg-center bg-no-repeat rounded-full" style={{ backgroundImage: `url(https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64)` }} />
                     :
                     <div className="bg-primary h-icon w-icon rounded-full" />
                 }
                 <div className="ml-5 flex- flex-col">
-                  <p className="font-primary text-white">{guildData.guild.guild_name}</p>
+                  <p className="font-primary text-white">{guild.name}</p>
                   <p className="text-xs mt-2">
                     <span className="text-textGrey">Plan:</span> {guildData.guild.type}
                     {guildData.guild.type === 'BASIC' && 
@@ -92,16 +91,14 @@ const Dashboard = ({ guild_id }: DashboardProps) => {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
   
-    authorized(ctx)
-
-    const guild_id = ctx.query.guild_id
-    return {
-        props: {
-          guild_id        
-        }
-    }
+  const guild_id = ctx.query.guild_id
+  return {
+      props: {
+        guild_id        
+      }
   }
+}
 
 export default Dashboard

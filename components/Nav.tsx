@@ -1,38 +1,23 @@
-import { FC, useEffect, useState } from 'react'
-import Cookies from 'js-cookie'
+import { FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import Button from './Button'
 import { openDiscordLoginPopup } from '../utils' 
+import { useGetUserQuery, useLogoutMutation } from '../graphql/generated'
 
-const token: string = Cookies.get('accessToken')
-const username: string = Cookies.get('username')
-const avatar: string = Cookies.get('avatar')
-const userid: string = Cookies.get('userid') 
 
 const links = [
-    { name: 'Contact', path: '/contact', private: false },
-    { name: 'Commands', path: '/commands', private: false },
     { name: 'My Servers', path: '/app/servers', private: true },
-    { name: username, path: null, private: true, avatar: true }
 ]
 
 const Nav: FC = () => {
+
+    const { data } = useGetUserQuery()
+    const [logoutUser] = useLogoutMutation()
+
     const router: NextRouter = useRouter()
-    const [loggedIn, setLoggedIn] = useState<boolean>(false)
-    const [showSubMenu, setShowSubMenu] = useState<boolean>(false)
 
-    useEffect(() => {
-        if(token && username && avatar && userid) {
-            setLoggedIn(true)
-        }
-    }, [])
-
-    const logout = () => {
-        Cookies.remove('userid')
-        Cookies.remove('expiry')
-        Cookies.remove('accessToken')
-        Cookies.remove('username')
-        Cookies.remove('avatar')
+    const logout = async() => {
+        await logoutUser()
         window.location.reload()
     }
 
@@ -45,43 +30,38 @@ const Nav: FC = () => {
                 </div>
                 <div className="flex justify-between items-center">
                     {links.map((link, i) => {
-                        if(!loggedIn && link.private) return null
+                        if(!data && link.private) return null
                         return (
                             <div 
                                 key={i} 
                                 className="mx-5 cursor-pointer flex items-center relative" 
-                                onClick={ () => link.path ? router.push(link.path) : null }
-                                onMouseEnter={() => link.avatar ? setShowSubMenu(true) : null}
-                                onMouseLeave={() => link.avatar ? setShowSubMenu(false) : null}
+                                onClick={ () =>  router.push(link.path) }
                             >
                                 <span className="text-white font-primary">{link.name}</span>
-                                {link.avatar &&
-                                    <>
-                                    <div 
-                                        className="ml-3 bg-cover bg-center bg-no-repeat rounded-full" 
-                                        style={{ 
-                                            backgroundImage: `url(https://cdn.discordapp.com/avatars/${userid}/${avatar}.png?size=32)`,
-                                            height: 32,
-                                            width: 32
-                                        }} 
-                                    />
-                                    {showSubMenu &&
-                                        <div 
-                                            className="absolute left-0 w-full bg-secondary px-3 py-1 text-center text-white font-primary cursor-pointer text-sm" 
-                                            style={{ top: '100%' }}
-                                            onClick={() => logout()}
-                                        >
-                                            <p className="hover:text-primary">Logout</p>
-                                        </div>
-                                    }
-                                    </>
-                                }
                             </div>
                         )
                     })}
 
+                    {data &&
+                        <>
+                            <div className="mx-5 flex items-center relative" >
+                                <span className="text-white font-primary">{data.user.username}</span>
+                            </div>
+                            <div 
+                                className="ml-3 bg-cover bg-center bg-no-repeat rounded-full" 
+                                style={{ 
+                                    backgroundImage: `url(https://cdn.discordapp.com/avatars/${data.user.id}/${data.user.avatar}.png?size=32)`,
+                                    height: 32,
+                                    width: 32
+                                }} 
+                            />
+                            <div className="mx-5 flex cursor-pointer items-center relative" onClick={() => logout()} >
+                                <span className="text-tertiary font-primary">Logout</span>
+                            </div>
+                        </>
+                    }
 
-                    {!loggedIn && <Button blue onClick={() => openDiscordLoginPopup()} text="Login"/>}
+                    {!data && <Button blue onClick={() => openDiscordLoginPopup()} text="Login"/>}
                     
                 </div>
             </nav>

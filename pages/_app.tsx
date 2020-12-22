@@ -1,32 +1,12 @@
 import "../styles/index.css";
 import type { AppProps } from 'next/app';
-import { ApolloClient, InMemoryCache, ApolloProvider,createHttpLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import Layout from "../components/Layout";
-import { setContext } from '@apollo/client/link/context';
-import Cookies from 'js-cookie'
 
-const httpLink = createHttpLink({
-  uri: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/graphql' : 'https://api.yellobot.me/graphql',
-  credentials: 'same-origin'
-});
-
-
-const authLink = setContext((_, { headers }) => {
-  const accessToken = Cookies.get('accessToken')
-  const expiry = Cookies.get('expiry')
-  const userid = Cookies.get('userid')
-  return {
-    headers: {
-      ...headers,
-      authorization: accessToken ? `Bearer ${accessToken}` : "",
-      expiry,
-      userid
-    }
-  }
-});
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  uri: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/graphql' : 'https://api.yellobot.me/graphql',
+  credentials: 'include',
   cache: new InMemoryCache()
 });
 

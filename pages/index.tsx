@@ -6,7 +6,7 @@ const Home: NextPage = () => {
   return (
     <div className="py-8">
       <Head>
-        <title>Create Next App</title>
+        <title>Yello Discord Bot</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
     </div>

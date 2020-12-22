@@ -1,0 +1,18 @@
+query getUser{
+  user{
+    id
+    username
+    avatar
+    email
+    accessToken
+    guilds{
+      id
+      name
+      icon
+      owner
+      permissions
+      features
+      permissions_new
+    }
+  }
+}
