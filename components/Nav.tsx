@@ -24,7 +24,7 @@ const Nav: FC = () => {
     return (
         <header className="py-4">
             <nav className="container mx-auto flex justify-between items-center">
-                <div className="flex items-center">
+                <div className="flex items-center cursor-pointer" onClick={() => router.push('/')}>
                     <img src="/assets/logo.png" className="w-icon" alt="Yello Logo"/>
                     <span className="font-secondary text-primary font-medium text-md ml-3 uppercase">yello</span>
                 </div>
