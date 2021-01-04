@@ -21,7 +21,7 @@ const Premium: FC<Props> = ({ close, guild_id, guild_name }) => {
             <script src={`https://www.paypal.com/sdk/js?client-id=${process.env.PAYPAL_CLIENT_ID}&disable-funding=credit,card,bancontact,mybank,sofort&currency=EUR`}></script>
         </Head>
         <div className="fixed top-0 left-0 bg-black bg-opacity-70 w-full h-screen flex justify-center items-center z-10">
-            <div className="flex flex-col justify-center items-center bg-secondary border border-primary py-5 px-8 rounded relative" style={{ maxWidth: 415 }}>
+            <div className="flex flex-col justify-center items-center bg-secondary border border-primary py-5 px-5 md:px-8 rounded relative md:w-auto w-full md:mx-0 mx-4">
                 <div className="absolute p-2 rounded-full bg-secondary flex justify-center items-center cursor-pointer" style={{ top: -15, right: -14 }} onClick={close}>
                     <Close className="text-white" size={20}/>
                 </div>

@@ -32,8 +32,8 @@ const Audio: FC<Props> = ({ audio, index, prefix, guild_id, refetchAudios, refet
         {isDeleting && <Delete audio_id={audio.id} guild_id={guild_id} audio_name={audio.name} refetchAudios={refetchAudios} refetchGuild={refetchGuild} close={() => setIsDeleting(false)}/>}
         {isEditing && <Edit audio_id={audio.id} guild_id={guild_id} audio_name={audio.name} refetchAudios={refetchAudios} refetchGuild={refetchGuild} close={() => setIsEditing(false)}/>}
         <div className={`flex justify-between items-center px-5 py-7 font-secondary text-white bg-secondary ${index % 2 ? 'bg-opacity-100' : 'bg-opacity-50'}`}>
-            <div>{prefix}{audio.name}</div>
-            <div className="flex items-center">
+            <div className="md:mr-0 mr-10">{prefix}{audio.name}</div>
+            <div className="flex items-center flex-1 justify-end">
                 <AudioPlayer
                     volume={0.6}
                     src={audio.url}

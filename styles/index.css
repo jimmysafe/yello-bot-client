@@ -8,12 +8,34 @@
     outline: none!important;
 }
 
+.player-wrapper {
+    position: relative;
+    padding-top: 56.25%; /* 720 / 1280 = 0.5625 */
+  }
+  
+.react-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+@media (min-width: 768px){
+    .video-player-wrapper {
+        width: 600px;
+        height: 320px;
+    }
+}
+
 /* SETTINGS SELECT CUSTOM OVERRIDES */
+
+.outer_select {
+    width: 100%;
+}
 
 .inner_select__control {
     @apply py-2;
     border-radius: 9px!important;
-    width: 400px;
+    width: 100%;
     background-color: #272727!important;
     border: none!important;
     outline: none!important;
@@ -73,7 +95,7 @@
 }
 
 .rhap_container {
-    width: 300px!important;
+    max-width: 300px!important;
     background-color: #FFB300!important;
     border-radius: 9px!important;
 }

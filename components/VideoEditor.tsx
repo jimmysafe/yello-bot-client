@@ -26,16 +26,16 @@ const VideoEditor: FC<Props> = ({ time, setTime, url }) => {
 
     return (
         <div>
-            <div className="bg-secondary p-3 rounded mb-3 relative" style={{ minWidth: 600, minHeight: 320 }}>
+            <div className="video-player-wrapper bg-secondary p-3 rounded mb-3 relative">
                 {/* Play button layer */}
                 <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center" onClick={() => setPlaying(!playing)} >
-                    {!playing && <PlayIcon color="#FFB300" size={220} />}
+                    {!playing && <PlayIcon color="#FFB300"  className="h-32 w-32 md:w-96 md:h-96" />}
                 </div>
                 <ReactPlayer
                     playing={playing}
                     ref={video}
-                    width="600px"
-                    height="320px"
+                    width="100%"
+                    height="100%"
                     volume={0.5}
                     url={url}
                     progressInterval={100}

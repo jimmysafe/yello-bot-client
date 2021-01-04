@@ -67,7 +67,7 @@ const Upload: FC<Props> = ({ close, guild_id, refetchAudios, refetchGuild }) => 
 
     return (
         <div className="fixed top-0 left-0 bg-black bg-opacity-50 w-full h-screen flex justify-center items-center z-10">
-            <form className="flex flex-col justify-center items-center bg-bgColor py-5 px-12 rounded border border-primary" onSubmit={upload}>
+            <form className="flex flex-col justify-center items-center bg-bgColor py-5 px-2 md:px-12 rounded border md:w-auto w-full mx-1 md:mx-0 border-primary" onSubmit={upload}>
                 <h1 className="text-white text-xl font-secondary mb-8">Upload from Youtube url</h1>
                 <div className="w-full relative">
                     <input 
@@ -107,7 +107,9 @@ const Upload: FC<Props> = ({ close, guild_id, refetchAudios, refetchGuild }) => 
                     />
                 </div>
                 
-                <VideoEditor time={time} setTime={setTime} url={url} />
+                {url &&
+                    <VideoEditor time={time} setTime={setTime} url={url} />
+                }
 
                 {url &&
                     <>

@@ -81,7 +81,7 @@ const Settings: FC<Props> = ({ prefix, roles, guild_id, close, refetchGuild }) =
 
     return (
         <div className="fixed top-0 left-0 bg-black bg-opacity-50 w-full h-screen flex justify-center items-center z-10">
-            <form className="flex relative flex-col justify-center items-center bg-bgColor py-5 px-12 rounded border border-primary" onSubmit={handleSubmit} style={{ minWidth: 350,maxWidth: 500, minHeight: 350 }}>
+            <form className="flex relative flex-col justify-center items-center bg-bgColor py-5 px-5 md:px-12 rounded border border-primary w-full md:mx-0 mx-4 md:w-auto" onSubmit={handleSubmit} style={{ minHeight: 350 }}>
                 {loading ? <Loading />
                 : ( 
                     <>

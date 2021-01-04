@@ -43,8 +43,8 @@ const Dashboard: NextPage<DashboardProps> = ({ guild_id }) => {
               setShowPremium(false)
               refetchGuild()
             }}/>}
-            <div className="flex justify-between items-center px-5 py-7 mb-5 rounded font-primary text-white bg-secondary">
-              <div className="flex items-center">
+            <div className="flex justify-between items-center px-5 py-7 mb-5 rounded font-primary text-white bg-secondary flex-col md:flex-row">
+              <div className="flex items-center mb-8 md:mb-0">
                 {guild.icon ? 
                     <div className="h-icon w-icon bg-cover bg-center bg-no-repeat rounded-full" style={{ backgroundImage: `url(https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64)` }} />
                     :
@@ -68,7 +68,7 @@ const Dashboard: NextPage<DashboardProps> = ({ guild_id }) => {
             { cantUpload && <PremiumBanner setShowPremium={setShowPremium}/>}
             {!data.audios.length ? (
               <div className="bg-secondary bg-opacity-50 px-5 py-7 rounded flex flex-col items-center justify-center relative" style={{ minHeight: 200 }}>
-                <img src="/assets/sleep.png" className="absolute" alt="Yello Audio" style={{ width: 150, bottom: 20, left: 20 }} />
+                <img src="/assets/sleep.png" className="absolute md:w-40 w-20" alt="Yello Audio" style={{ bottom: 20, left: 20 }} />
                 <p className="mb-5 text-white font-primary">There are no audios yet.</p>
                 <Button blue text="Add New Audio" onClick={() => setShowUpload(true)} />
               </div>
