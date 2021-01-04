@@ -12,7 +12,7 @@ const sections = [
 const Home: NextPage = () => {
   
   return (
-    <div className="py-8">
+    <div className="py-8 px-5">
       <Head>
         <title>Yello Discord Bot</title>
         <link rel="icon" href="/favicon.ico" />
@@ -20,7 +20,7 @@ const Home: NextPage = () => {
 
       <img 
         src="/assets/right_hand.png" 
-        className="fixed w-80" 
+        className="fixed w-80 hidden md:block" 
         alt="right_hand" 
         style={{ 
           right: -20,
@@ -30,7 +30,7 @@ const Home: NextPage = () => {
 
       <img 
         src="/assets/left_hand.png" 
-        className="fixed w-64" 
+        className="fixed w-64 hidden md:block" 
         alt="left_hand" 
         style={{ 
           left: -20,
@@ -41,7 +41,7 @@ const Home: NextPage = () => {
       <section className="flex justify-center items-center flex-col my-40">
         <div>
           <h1 className="text-primary font-secondary text-5xl text-center mb-5">A fun bot for Discord.</h1>
-          <p className="text-white font-primary mb-12">Cut your favourites audio bits from a YouTube Video and yell'em in your channel!</p>
+          <p className="text-white font-primary mb-12 text-center">Cut your favourites audio bits from a YouTube Video and yell'em in your channel!</p>
         </div>
         <Button 
           blue 
@@ -62,7 +62,7 @@ const Home: NextPage = () => {
             <h2 className="text-primary font-secondary text-4xl mb-5">{section.title}</h2>
             <p className="text-white font-primary" dangerouslySetInnerHTML={{ __html: section.content }}></p>
           </div>
-          <img src={section.img_url} alt={section.title} style={{ maxWidth: 450, margin: '0 auto' }}/>
+          <img src={section.img_url} alt={section.title} style={{ maxWidth: 450, margin: '0 auto' }} className="w-full"/>
         </section>
       ))}
 

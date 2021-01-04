@@ -12,7 +12,7 @@ const Layout: FC = ({ children }: LayoutProps) => {
             <div className="container mx-auto relative">
                 {children}
             </div>
-            <p className="absolute bottom-3 text-white text-center font-primary text-xs" style={{ left: '50%', transform: 'translateX(-50%)' }}>Yello Bot - Copyright {new Date().getFullYear()} - powered by Basilico</p>
+            <p className="w-full absolute bottom-3 text-white text-center font-primary text-xs" style={{ left: '50%', transform: 'translateX(-50%)' }}>Yello Bot - Copyright {new Date().getFullYear()} - powered by Basilico</p>
         </main>
     )
 }

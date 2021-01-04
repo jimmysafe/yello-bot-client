@@ -22,7 +22,7 @@ const Nav: FC = () => {
     }
 
     return (
-        <header className="py-4">
+        <header className="py-4 px-4">
             <nav className="container mx-auto flex justify-between items-center">
                 <div className="flex items-center cursor-pointer" onClick={() => router.push('/')}>
                     <img src="/assets/logo.png" className="w-icon" alt="Yello Logo"/>
@@ -44,7 +44,7 @@ const Nav: FC = () => {
 
                     {data &&
                         <>
-                            <div className="mx-5 flex items-center relative" >
+                            <div className="mx-5 hidden items-center relative md:flex" >
                                 <span className="text-white font-primary">{data.user.username}</span>
                             </div>
                             <div 
@@ -55,7 +55,7 @@ const Nav: FC = () => {
                                     width: 32
                                 }} 
                             />
-                            <div className="mx-5 flex cursor-pointer items-center relative" onClick={() => logout()} >
+                            <div className="mx-5 cursor-pointer items-center relative hidden md:flex" onClick={() => logout()} >
                                 <span className="text-tertiary font-primary">Logout</span>
                             </div>
                         </>

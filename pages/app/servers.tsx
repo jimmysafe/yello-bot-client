@@ -19,8 +19,8 @@ const Servers: NextPage = () => {
     if(loading) return <Loading hScreen/>
 
     return (
-        <div className="py-5">
-            <h1 className="text-center mb-24 font-secondary text-xl text-white font-medium">Choose a server</h1>
+        <div className="pt-5 pb-20 md:py-5">
+            <h1 className="text-center mb-10 md:mb-24 font-secondary text-xl text-white font-medium">Choose a server</h1>
             {data?.userGuilds.map(guild => (
                 <div 
                     key={guild.id} 
