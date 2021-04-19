@@ -19,7 +19,7 @@ const Dashboard: NextPage<DashboardProps> = ({ guild_id }) => {
 	const [showSettings, setShowSettings] = useState<boolean>(false);
 	const [showPremium, setShowPremium] = useState<boolean>(false);
 
-	const { data: userData, loading: userLoading } = useGetUserQuery();
+	const { data: userData, loading: userLoading, error: userError } = useGetUserQuery();
 	const {
 		data: guildData,
 		error: guildError,
@@ -30,12 +30,14 @@ const Dashboard: NextPage<DashboardProps> = ({ guild_id }) => {
 		variables: { guild_id },
 	});
 
+	if (userError) {
+		console.log(userError);
+		return <p>Error..</p>;
+	}
 	if (guildError) return Error(guildError.graphQLErrors[0].extensions.code);
 	if (error) return Error(error.graphQLErrors[0].extensions.code);
 
 	if (loading || guildLoading || userLoading) return <Loading hScreen />;
-
-	console.log(userData);
 
 	const guild = userData?.user?.guilds.find((guild) => guild.id === guild_id);
 
@@ -78,14 +80,14 @@ const Dashboard: NextPage<DashboardProps> = ({ guild_id }) => {
 						<div
 							className='h-icon w-icon bg-cover bg-center bg-no-repeat rounded-full'
 							style={{
-								backgroundImage: `url(https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64)`,
+								backgroundImage: `url(https://cdn.discordapp.com/icons/${guild?.id}/${guild?.icon}.png?size=64)`,
 							}}
 						/>
 					) : (
 						<div className='bg-primary h-icon w-icon rounded-full' />
 					)}
 					<div className='ml-5 flex- flex-col'>
-						<p className='font-primary text-white'>{guild.name}</p>
+						<p className='font-primary text-white'>{guild?.name}</p>
 						<p className='text-xs mt-2'>
 							<span className='text-textGrey'>Plan:</span> {guildData.guild.type}
 							{guildData.guild.type === 'BASIC' && (
