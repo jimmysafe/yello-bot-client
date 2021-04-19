@@ -37,9 +37,9 @@ const Dashboard: NextPage<DashboardProps> = ({ guild_id }) => {
 
 	console.log(userData);
 
-	const guild = userData.user.guilds.find((guild) => guild.id === guild_id);
+	const guild = userData?.user?.guilds.find((guild) => guild.id === guild_id);
 
-	const isOwner = guild.owner;
+	const isOwner = guild?.owner;
 
 	const cantUpload = guildData.guild.files.length >= 10 && guildData.guild.type === 'BASIC';
 
