@@ -27,7 +27,7 @@ const Paypal: FC<Props> = ({ close, guild_id }) => {
 			{success && <Success close={close} />}
 			{loading && <Loading />}
 			<PayPalButton
-				amount='0.01'
+				amount='4.99'
 				shippingPreference='NO_SHIPPING'
 				onSuccess={async () => {
 					setLoading(true);
