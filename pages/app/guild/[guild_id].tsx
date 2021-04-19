@@ -30,10 +30,7 @@ const Dashboard: NextPage<DashboardProps> = ({ guild_id }) => {
 		variables: { guild_id },
 	});
 
-	if (userError) {
-		console.log(userError);
-		return <p>Error..</p>;
-	}
+	if (userError) console.log(userError);
 	if (guildError) return Error(guildError.graphQLErrors[0].extensions.code);
 	if (error) return Error(error.graphQLErrors[0].extensions.code);
 
