@@ -44,7 +44,7 @@ export type UserType = {
   id: Scalars['String'];
   username: Scalars['String'];
   avatar?: Maybe<Scalars['String']>;
-  email: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
   accessToken: Scalars['String'];
   guilds: Array<GuildType>;
 };
