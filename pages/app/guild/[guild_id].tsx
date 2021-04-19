@@ -74,7 +74,7 @@ const Dashboard: NextPage<DashboardProps> = ({ guild_id }) => {
 			)}
 			<div className='flex justify-between items-center px-5 py-7 mb-5 rounded font-primary text-white bg-secondary flex-col md:flex-row'>
 				<div className='flex items-center mb-8 md:mb-0'>
-					{guild.icon ? (
+					{guild?.icon ? (
 						<div
 							className='h-icon w-icon bg-cover bg-center bg-no-repeat rounded-full'
 							style={{
